@@ -1,0 +1,43 @@
+
+extends layout
+
+block content
+	include modals/nav
+
+	div.jumbotron.about-jt.vertical-center
+		div.container.text-center
+			h1.index About Us
+	div.wrapper
+		div.container.theme-showcase
+			div.page-header
+			div.row.row-centered.vertical-center
+				div.col-sm-5
+					img.img-responsive(src="/img/icon.jpg" alt="Icon")
+				div.col-sm-6
+					p
+						| College should be a safe and free place that allows you
+						| to learn and feel at ease. Campus Track was designed to give you that
+						| peace of mind to roam freely and have confidence that you are protected.
+						br
+						br
+						| Built from the ground up, the Campus Track key chain can send your location
+						| directly to the local authorities to let them know you are in distress.
+						| Completely self-contained, the key chain has everything on board to connect
+						| directly to authorities without a smartphone or any other connected device.
+		div.container
+			div.page-header
+			div.row.row-centered.vertical-center
+				div.col-sm-9
+					p
+						| Campus Track is built with tiny, low-powered component to make it as
+						| easy as possible to be carried around. Keeping the device compact was a priority
+						| so it won't take up precious space in a pocket or bag. The low-powered components
+						| enable the device to last idle for over a year without needing to be rechareged.
+				div.col-sm-3
+					img.img-responsive(src="/img/cpu.png" alt="CPU")
+
+block scripts
+	script(src='/vendor/jquery.form.js')
+	script(src='/vendor/bootstrap-modal.js')
+	script(src='/vendor/bootstrap-transition.js')
+	script(src='/vendor/bootstrap.min.js')

@@ -1,0 +1,34 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		meta(name='viewport', content='width=device-width, initial-scale=1')
+		// These three tags must be first in the head
+		meta(name='description', content='Campus Track')
+		meta(name='author', content='Tristan Jesse')
+		link(rel='icon', href='bin/icon-48x48.png')
+		meta(property='og:site_name', content='CampusTrack')
+		meta(property='og:title', content='A device that makes college a safe place to be.')
+		meta(property='og:url', content='http://campus-track.com/')
+		meta(property='og:type', content='website')
+		title CampusTrack
+		
+		if locals.scripts
+			each script in scripts
+				script(type='text/javascript', src= script)
+		if locals.styles
+			each style in styles
+				link(rel='stylesheet', href= style)
+
+		link(rel='stylesheet', href='/vendor/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/style.css')
+		link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css')
+
+
+		script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
+		script(src='vendor/jquery.bootstrap-autohidingnavbar.min.js')
+	body
+
+	block content
+	block scripts

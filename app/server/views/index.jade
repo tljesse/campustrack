@@ -1,0 +1,42 @@
+
+extends layout
+
+block content
+	include modals/nav
+
+	div.jumbotron.home-jt.vertical-center
+		div.container.text-center
+			h1.index A device that makes college a safe place to be
+	div.wrapper
+		div.container.theme-showcase
+			div.page-header
+			div.row.row-centered.vertical-center
+				div.col-sm-10.col-sm-offset-1.text-center
+					h1.index
+						| Introductng a personal safety device to put on your keychain
+						| that instantly sends your exact locatin to 911 dispatch when
+						| you are in distress - while simultaneously enabling nearby
+						| visible and audio alarms to deter any perpetrator
+						br
+						br
+						span
+							| All 
+							span.italic without
+							|  a cell phone
+		div.container
+			div.page-header
+			div.row.row-centered.vertical-center
+				div.col-sm-3
+					img.img-responsive(src="/img/map.png" alt="Map")
+				div.col-sm-9
+					h1.index
+						| Campus Track uses GPS with a cutting edge location algorithm 
+						| to find your position at the click of a button. Then your location 
+						| and information will be sent directly to campus authorities, alerting 
+						| them to your distress
+
+block scripts
+	script(src='/vendor/jquery.form.js')
+	script(src='/vendor/bootstrap-modal.js')
+	script(src='/vendor/bootstrap-transition.js')
+	script(src='/vendor/bootstrap.min.js')

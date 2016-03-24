@@ -1,0 +1,55 @@
+
+// preset form values if we receive a userdata object //
+- user = typeof(udata) != 'undefined' ? udata : { }
+// store the userId on the client side in a hidden input field //
+input(type='hidden', value= user._id)#userId
+
+#account-form-container
+	form( method="post")#account-form.form-horizontal.well.span6
+		h1
+		p#sub1.subheading Please tell us a little about yourself.
+		hr
+		fieldset
+			#name-cg.control-group
+				label.control-label(for='name-tf') Name
+				input#name-tf.controls(type='text', name='name', value= user.name)
+			#email-cg.control-group
+				label.control-label(for='email-tf') Email
+				input#email-tf.controls(type='text', name='email', value= user.email)
+			#clist-cg.control-group
+				label.control-label(for='country-list') Campus
+				select#country-list.controls(name='country')
+					each item in countries
+						option(selected=item.name == user.country)= item.name
+			#height-cg.control-group
+				label.control-label(for='height-tf') Height
+				input#height-tf.controls(type='text', name='height', value= user.height)
+			#weight-cg.control-group
+				label.control-label(for='weight-tf') Weight
+				input#weight-tf.controls(type='text', name='weight', value= user.weight)
+			#phone-cg.control-group
+				label.control-label(for='phone-tf') Phone Number
+				input#phone-tf.controls(type='text', name='phone', value= user.phone)
+			hr
+			#devive-cg.control-group
+				label.control-label(for='device-tf') Device ID
+				input#device-tf.disabled.controls(type='text', name='device', value= user.device)
+			hr
+			p#sub2.subheading
+			#user-cg.control-group
+				label.control-label(for='user-tf') Username
+				input#user-tf.disabled.controls(type='text', name='user', value= user.user)
+			#pass-cg.control-group
+				label.control-label(for='pass-tf') Password
+				input#pass-tf.controls(type='password', name='pass', value='')
+			hr
+			.form-buttons
+				button(type='button')#account-form-btn1.btn
+				button(type='submit')#account-form-btn2.btn
+
+// display form errors in a custom modal window //
+
+include modals/form-errors
+
+script.
+	console.log(user.name);
