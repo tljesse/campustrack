@@ -1,14 +1,14 @@
 {
-  "name": "node-login",
-  "version": "1.4.1",
-  "description": "A template for quickly building login systems on top of Node.js & MongoDb",
-  "author": "Stephen Braitsch <stephen@braitsch.io>",
+  "name": "campustrack",
+  "version": "1.0",
+  "description": "Device for student safety",
+  "author": "Tristan Jesse",
   "website": {
-    "url": "http://node-login.braitsch.io"
+    "url": "#"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:braitsch/node-login.git"
+    "url": "git@github.com:tljesse/campustrack.git"
   },
   "dependencies": {
     "body-parser": "1.14.1",
