@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Device for student safety",
   "author": "Tristan Jesse",
+  "license": "ISC",
   "website": {
     "url": "#"
   },
@@ -22,8 +23,7 @@
     "moment": "2.10.3",
     "mongodb": "2.0.45",
     "mongoose": "*",
-    "stylus": "0.52.4",
-    "license": "ISC"
+    "stylus": "0.52.4"
   },
   "engines": {
     "node": "4.2.1"
