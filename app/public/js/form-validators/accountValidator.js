@@ -3,8 +3,8 @@ function AccountValidator()
 {
 // build array maps of the form inputs & control groups //
 
-	this.formFields = [$('#name-tf'), $('#email-tf'), $('#user-tf'), $('#pass-tf')];
-	this.controlGroups = [$('#name-cg'), $('#email-cg'), $('#user-cg'), $('#pass-cg')];
+	this.formFields = [$('#name-tf'), $('#email-tf'), $('#user-tf'), $('#pass-tf'), $('#height-tf'), $('#weight-tf'), $('#phone-tf')];
+	this.controlGroups = [$('#name-cg'), $('#email-cg'), $('#user-cg'), $('#pass-cg'), $('#height-cg'), $('#weight-cg'), $('#phone-cg')];
 	
 // bind the form-error modal window to this controller to display any errors //
 	
@@ -29,6 +29,26 @@ function AccountValidator()
 	this.validateEmail = function(e)
 	{
 		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test(e);
+	}
+
+	this.validateHeight = function(e)
+	{
+		var re = /^(3-7)'(?:\s*(?:1[01]|0-9)(''|"))?$/;
+		return re.test(e);
+	}
+
+	this.validateWeight = function(e)
+	{
+		// must be a number
+		var re = /^[1-8]{1}([0-9]){1,3}$/;
+		return re.test(e);
+	}
+
+	this.validatePhone = function(e)
+	{
+		// must be a number xxx-xxx-xxxx
+		var re = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
 		return re.test(e);
 	}
 	
@@ -64,6 +84,15 @@ AccountValidator.prototype.validateForm = function()
 	}
 	if (this.validateEmail(this.formFields[1].val()) == false) {
 		this.controlGroups[1].addClass('error'); e.push('Please Enter A Valid Email');
+	}
+	if (this.validateHeight(this.formFields[4].val()) == false) {
+		this.controlGroups[4].addClass('error'); e.push('Please Enter a Valid Height (ft\'in\'\')');
+	}
+	if (this.validateWeight(this.formFields[5].val()) == false) {
+		this.controlGroups[5].addClass('error'); e.push('Please Enter a Valid Weight');
+	}
+	if (this.validatePhone(this.formFields[6].val()) == false) {
+		this.controlGroups[6].addClass('error'); e.push('Please Enter a Valid Phone Number (xxx-xxx-xxxx)');
 	}
 	if (this.validateName(this.formFields[2].val()) == false) {
 		this.controlGroups[2].addClass('error');
