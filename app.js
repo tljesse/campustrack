@@ -24,7 +24,7 @@ app.use(session({
 	proxy: true,
 	resave: true,
 	saveUninitialized: true,
-	store: new MongoStore({ host: 'localhost', port: 27017, db: 'dummyDB'})
+	store: new MongoStore({ host: 'localhost', port: 21701, db: 'dummyDB'})
 	})
 );
 app.use(bodyParser.json());
