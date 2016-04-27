@@ -34,7 +34,7 @@ function AccountValidator()
 
 	this.validateHeight = function(e)
 	{
-		var re = /^(3-7)'(?:\s*(?:1[01]|0-9)(''|"))?$/;
+		var re = /^[0-9]+\'[ ]?([0-9]{1,2}[\"]?|)$/;
 		return re.test(e);
 	}
 
