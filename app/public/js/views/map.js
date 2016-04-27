@@ -6,8 +6,8 @@ var map = L.mapbox.map('map', 'mapbox.streets')
 var myLayer = L.mapbox.featureLayer().addTo(map);
 var geoJson = [];
 
-var http = require('http')
-var url = require('url')
+var http = require('http');
+var url = require('url');
 
 // create the http server
 http.createServer(function (request, response) {
