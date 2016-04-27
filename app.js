@@ -24,7 +24,7 @@ app.use(session({
 	proxy: true,
 	resave: true,
 	saveUninitialized: true,
-	store: new MongoStore({ host: 'ds021701.mlab.com', port: 21701, db: 'dummyDB'})
+	store: new MongoStore({ url: 'mongodb://tristan:google@ds021701.mlab.com:21701/heroku_k01txhjb' })//host: 'ds021701.mlab.com', port: 21701, db: 'dummyDB'})
 	})
 );
 app.use(bodyParser.json());
