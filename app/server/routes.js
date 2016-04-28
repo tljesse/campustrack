@@ -101,7 +101,7 @@ module.exports = function(app) {
 		}
 	});
 
-	app.post('/webhook', function(request, response){
+	app.get('/webhook', function(request, response){
 		var url_parts = url.parse(request.url,true);
 
 		if (!url_parts.hasOwnProperty('to') || !url_parts.hasOwnProperty('msisdn') || !url_parts.hasOwnProperty('text'))
