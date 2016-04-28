@@ -61,11 +61,11 @@ module.exports = function(app) {
 
 			}
 
-			res.writeHead(200, {"Content-Type": "text/html"});
 			res.render('demo', {
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
 				title: 'Campus Track | Demo'});
+			res.writeHead(200, {"Content-Type": "text/html"});
 			res.end();
 		} else {
 			res.render('demo', {
