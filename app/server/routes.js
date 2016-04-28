@@ -127,7 +127,7 @@ module.exports = function(app) {
 		}
 		response.writeHead(200, {"Content-Type": "text/html"});
   		response.end();
-	})
+	});
 
 
 // logged-in user homepage //
