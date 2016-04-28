@@ -6,6 +6,7 @@
 **/
 
 var http = require('http');
+var url = require('url');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -31,7 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 app.use(express.static(__dirname + '/app/public'));
-app.use(function(require, response) {
+app.use(function(request, response) {
 	if(request.method=='POST') {
       //Do something for post request
   }
