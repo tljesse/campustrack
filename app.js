@@ -7,6 +7,7 @@
 
 var http = require('http');
 var url = require('url');
+var request = require('request');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
