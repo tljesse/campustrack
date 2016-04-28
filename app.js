@@ -37,6 +37,20 @@ require('./app/server/routes')(app);
 if (app.get('env') == 'development') app.use(errorHandler());
 
 
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function(request, response){
 	console.log('Express server listening on port ' + app.get('port'));
+
+	var headers = request.headers;
+	var method = request.method;
+	var url = request.url;
+	var body = [];
+
+	request.on('error', function(err) {
+		console.error(err);
+	}).on('data', function(chunk) {
+		body.push(chunk);
+	}).on('end', function() {
+		body = Buffer.concat(body).toString();
+	})
+
 });
