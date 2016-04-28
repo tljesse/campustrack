@@ -40,12 +40,8 @@ if (app.get('env') == 'development') app.use(errorHandler());
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));
-});
 
-// create the http server
-http.createServer(function (request, response) {
-
-  if(request.method=='POST') {
+	if(request.method=='POST') {
       //Do something for post request
   }
   else if(request.method=='GET') {
@@ -77,5 +73,4 @@ http.createServer(function (request, response) {
   //Send the 200 ok to the Platform so you don't get sent the DLR again.
   response.writeHead(200, {"Content-Type": "text/html"});
   response.end();
-
-}).listen(80);
+});
