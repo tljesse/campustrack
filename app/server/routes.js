@@ -65,8 +65,7 @@ module.exports = function(app) {
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
 				title: 'Campus Track | Demo'});
-			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end();
+			res.status(200).end();
 		} else {
 			res.render('demo', {
 				name: req.session.user.name,
