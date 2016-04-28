@@ -102,7 +102,7 @@ module.exports = function(app) {
 	});
 
 	app.get('/webhook', function(request, response){
-		var url_parts = url.parse(req.url,true);
+		var url_parts = url.parse(request.url,true);
 
 		if (!url_parts.hasOwnProperty('to') || !url_parts.hasOwnProperty('msisdn') || !url_parts.hasOwnProperty('text'))
 			console.log('This is not an inbound message');
