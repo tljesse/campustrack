@@ -7,7 +7,6 @@
 
 var http = require('http');
 var url = require('url');
-var request = require('request');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -39,7 +38,7 @@ require('./app/server/routes')(app);
 if (app.get('env') == 'development') app.use(errorHandler());
 
 
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function(request, response){
 	console.log('Express server listening on port ' + app.get('port'));
 
 	if(request.method=='POST') {
