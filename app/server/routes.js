@@ -2,6 +2,8 @@
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var EM = require('./modules/email-dispatcher');
+//var SI = require('./modules/sms-inbound.js');
+var url = require('url');
 
 module.exports = function(app) {
 
@@ -35,10 +37,36 @@ module.exports = function(app) {
 // demo page //
 	app.get('/demo', function(req, res) {
 		if(req.session.user == null){
+			var url_parts = url.parse(req.url,true);
+
+			if (!url_parts.hasOwnProperty('to') || !url_parts.hasOwnProperty('msisdn') || !url_parts.hasOwnProperty('text'))
+				console.log('This is not an inbound message');
+			else {
+				//This is a DLR, check that your message has been delivered correctly
+				if (url_parts.hasOwnProperty('concat'))
+				{
+				  console.log("Fail:" +  url_parts.status + ": " + url_parts.err-code  +  ".\n" );
+				}
+				else {
+				  console.log("Success");
+				  /*
+				   * The following parameters in the delivery receipt should match the ones
+				   * in your request:
+				   * Request - from, dlr - to\n
+				   * Response - message-id, dlr - messageId\n
+				   * Request - to, Responese - to, dlr - msisdn\n
+				   * Request - client-ref, dlr - client-ref\n
+				   */
+				}
+
+			}
+
+			res.writeHead(200, {"Content-Type": "text/html"});
 			res.render('demo', {
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
 				title: 'Campus Track | Demo'});
+			res.end();
 		} else {
 			res.render('demo', {
 				name: req.session.user.name,
