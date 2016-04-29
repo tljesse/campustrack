@@ -36,7 +36,8 @@ app.use(express.static(__dirname + '/app/public'));
 app.get('/:pagename', function(req, res) {
 	var url_parts = url.parse(req.url,true);
 	console.log(url_parts);
-	res.sendfile('public/' + req.params.pagename + '.html');
+	console.log(req.params.pagename)
+	res.sendfile('public/' + req.params.pagename);
 });
 
 require('./app/server/routes')(app);
