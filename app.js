@@ -33,10 +33,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 app.use(express.static(__dirname + '/app/public'));
 
-app.get('/hook', function(req, res) {
+app.get('/:pagename', function(req, res) {
 	var url_parts = url.parse(req.url,true);
 	console.log(url_parts);
-	res.statusCode = 200;
+	res.sendfile('public/' + req.params.pagename + '.html');
 });
 
 require('./app/server/routes')(app);
