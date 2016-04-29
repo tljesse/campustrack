@@ -7,20 +7,18 @@ var moment 		= require('moment');
 
 var dbPort 		= 21701;
 var dbHost 		= 'ds021701.mlab.com';
-var dbName 		= 'node-login';
+var dbName 		= 'heroku_k01txhjb';
 
 /* establish the database connection */
 
-/*var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
+var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
 	db.open(function(e, d){
 	if (e) {
 		console.log(e);
 	}	else{
 		console.log('connected to database :: ' + dbName);
 	}
-});*/
-MongoClient.connect("mongodb://tristan:google@ds021701.mlab.com:21701/heroku_k01txhjb", function(err, db) {
-  if(err) { return console.dir(err); }
+});
 var accounts = db.collection('accounts');
 
 /* login validation methods */
