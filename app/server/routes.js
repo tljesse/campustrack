@@ -9,6 +9,8 @@ module.exports = function(app) {
 
 // index page //
 	app.get('/', function(req, res) { 
+		var url_parts = url.parse(req.url,true);
+		console.log(url_parts.query.msisdn);
 		if(req.session.user == null) {
 			res.render('index', { title: 'Campus Track'});
 		} else {
@@ -55,11 +57,7 @@ module.exports = function(app) {
 		
 	});
 
-	app.get('/:pagename', function(req, res) {
-		var url_parts = url.parse(req.url,true);
-		console.log(url_parts);
-		res.statusCode = 200;
-	});
+
 
 // main login page //
 	app.get('/login', function(req, res){
