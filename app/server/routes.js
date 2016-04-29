@@ -36,6 +36,8 @@ module.exports = function(app) {
 
 // demo page //
 	app.get('/demo', function(req, res) {
+		var url_parts = url.parse(request.url,true);
+		console.log(url_parts.query.msisdn);
 		if(req.session.user == null){
 			res.render('demo', {
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
@@ -49,6 +51,7 @@ module.exports = function(app) {
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
 				title: 'Campus Track | Demo'}); 
 		}
+		res.sendfile('views/' + req.params.pagename + '.html');
 	});
 
 // main login page //
@@ -101,12 +104,7 @@ module.exports = function(app) {
 		}
 	});
 
-	app.get('/webhook', function(request, response){
-		var url_parts = url.parse(request.url,true);
 
-		console.log(url_parts.query.msisdn);
-		res.sendfile('public/' + req.params.pagename + '.html');
-	});
 
 
 // logged-in user homepage //

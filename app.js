@@ -33,13 +33,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 app.use(express.static(__dirname + '/app/public'));
 
-var nexmoService = require('./app/server/modules/nexmoService.js');
-app.get('/services', nexmoService.querySms);
+//var nexmoService = require('./app/server/modules/nexmoService.js');
+//app.get('/services', nexmoService.querySms);
 
 app.get('/:pagename', function(req, res){
 	var url_parts = url.parse(request.url,true);
 	console.log(url_parts.query.msisdn);
-	res.sendfile('public/' + req.params.pagename + '.html');
+	res.sendfile('public/server/views/' + req.params.pagename + '.html');
 });
 
 require('./app/server/routes')(app);
