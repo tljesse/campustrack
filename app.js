@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 app.use(express.static(__dirname + '/app/public'));
 
-var nexmoService = require('./server/modules/nexmoService.js');
+var nexmoService = require('./app/server/modules/nexmoService.js');
 app.get('/services', nexmoService.querySms);
 
 app.get('/webhook', function(req, res){
