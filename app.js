@@ -36,9 +36,8 @@ app.use(express.static(__dirname + '/app/public'));
 var nexmoService = require('./app/server/modules/nexmoService.js');
 app.get('/services', nexmoService.querySms);
 
-app.get('/webhook', function(req, res){
+app.get('/:pagename', function(req, res){
 	var url_parts = url.parse(request.url,true);
-
 	console.log(url_parts.query.msisdn);
 	res.sendfile('public/' + req.params.pagename + '.html');
 });
