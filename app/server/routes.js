@@ -51,7 +51,7 @@ module.exports = function(app) {
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
 				title: 'Campus Track | Demo'}); 
 		}
-		res.sendfile('../public/' + req.params.pagename + '.html');
+		res.writeHead(200, {'Content-Type': 'text/event-stream'});
 	});
 
 // main login page //
