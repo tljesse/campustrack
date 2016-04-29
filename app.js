@@ -33,19 +33,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
 app.use(express.static(__dirname + '/app/public'));
 
-//var nexmoService = require('./app/server/modules/nexmoService.js');
-//app.get('/services', nexmoService.querySms);
-
-app.get('/:pagename', function(req, res){
-	var url_parts = url.parse(request.url,true);
-	console.log(url_parts.query.msisdn);
-	res.sendfile('public/server/views/' + req.params.pagename + '.html');
-});
-
 require('./app/server/routes')(app);
 
 if (app.get('env') == 'development') app.use(errorHandler());
 
 
-var port = process.env.PORT || 3333;
-app.listen(port);
+http.createServer(app).listen(app.get('port'), function(){
+	console.log('Express server listening on port ' + app.get('port'));
+});
