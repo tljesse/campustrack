@@ -38,6 +38,7 @@ module.exports = function(app) {
 	app.get('/demo', function(req, res) {
 		var url_parts = url.parse(req.url,true);
 		console.log(url_parts.query.msisdn);
+		res.writeHead(200, {'Content-Type': 'text/event-stream'});
 		if(req.session.user == null){
 			res.render('demo', {
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
@@ -51,7 +52,7 @@ module.exports = function(app) {
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
 				title: 'Campus Track | Demo'}); 
 		}
-		res.writeHead(200, {'Content-Type': 'text/event-stream'});
+		
 	});
 
 // main login page //
