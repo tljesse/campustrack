@@ -48,6 +48,5 @@ require('./app/server/routes')(app);
 if (app.get('env') == 'development') app.use(errorHandler());
 
 
-http.createServer(app).listen(app.get('port'), function(){
-	console.log('Express server listening on port ' + app.get('port'));
-});
+var port = process.env.PORT || 3333;
+app.listen(port);
