@@ -36,7 +36,7 @@ app.use(express.static(__dirname + '/app/public'));
 app.get('/:pagename', function(req, res) {
 	var url_parts = url.parse(req.url,true);
 	console.log(url_parts);
-	console.log(req.params.pagename)
+	console.log(req.params.pagename);
 	res.sendfile('public/' + req.params.pagename);
 });
 
