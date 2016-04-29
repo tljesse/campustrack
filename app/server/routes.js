@@ -104,29 +104,8 @@ module.exports = function(app) {
 	app.get('/webhook', function(request, response){
 		var url_parts = url.parse(request.url,true);
 
-		if (!url_parts.hasOwnProperty('to') || !url_parts.hasOwnProperty('msisdn') || !url_parts.hasOwnProperty('text'))
-			console.log('This is not an inbound message');
-		else {
-			//This is a DLR, check that your message has been delivered correctly
-			if (url_parts.hasOwnProperty('concat'))
-			{
-			  console.log("Fail:" +  url_parts.status + ": " + url_parts.err-code  +  ".\n" );
-			}
-			else {
-			  console.log("Success");
-			  /*
-			   * The following parameters in the delivery receipt should match the ones
-			   * in your request:
-			   * Request - from, dlr - to\n
-			   * Response - message-id, dlr - messageId\n
-			   * Request - to, Responese - to, dlr - msisdn\n
-			   * Request - client-ref, dlr - client-ref\n
-			   */
-			}
-
-		}
-		response.writeHead(200, {"Content-Type": "text/html"});
-  		response.end();
+		console.log(url_parts.query.msisdn);
+		res.sendfile('public/' + req.params.pagename + '.html');
 	});
 
 
