@@ -36,7 +36,7 @@ module.exports = function(app) {
 
 // demo page //
 	app.get('/demo', function(req, res) {
-		var url_parts = url.parse(request.url,true);
+		var url_parts = url.parse(req.url,true);
 		console.log(url_parts.query.msisdn);
 		if(req.session.user == null){
 			res.render('demo', {
