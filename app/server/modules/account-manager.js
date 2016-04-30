@@ -9,6 +9,8 @@ var dbPort 		= 21701;
 var dbHost 		= 'ds021701.mlab.com';
 var dbName 		= 'heroku_k01txhjb';
 
+var db;
+
 /* establish the database connection */
 MongoClient.connect("mongodb://tristan:google@ds021701.mlab.com:21701/heroku_k01txhjb", function(err, database) {
   if(err) throw err;
