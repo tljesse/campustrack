@@ -1,31 +1,35 @@
 
 var crypto 		= require('crypto');
-//var MongoDB 	= require('mongodb').Db;
-//var Server 		= require('mongodb').Server;
-var MongoClient = require('mongodb').MongoClient;
+var MongoDB 	= require('mongodb').Db;
+var Server 		= require('mongodb').Server;
+//var MongoClient = require('mongodb').MongoClient;
 var moment 		= require('moment');
 
 var dbPort 		= 21701;
 var dbHost 		= 'ds021701.mlab.com';
 var dbName 		= 'heroku_k01txhjb';
 
-var db;
-
 /* establish the database connection */
-MongoClient.connect("mongodb://tristan:google@ds021701.mlab.com:21701/heroku_k01txhjb", function(err, database) {
-  if(err) throw err;
 
-  db = database;
-});
-
-/*var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
-	db.open(function(e, d){
+var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
+db.open(function(e, d){
 	if (e) {
 		console.log(e);
-	}	else{
-		console.log('connected to database :: ' + dbName);
+	} else {
+		if (process.env.NODE_ENV == 'live') {
+			db.authenticate(process.env.DB_USER, process.env.DB_PASS, function(e, res) {
+				if (e) {
+					console.log('mongo :: error: not authenticated', e);
+				}
+				else {
+					console.log('mongo :: authenticated and connected to database :: "'+dbName+'"');
+				}
+			});
+		}	else{
+			console.log('mongo :: connected to database :: "'+dbName+'"');
+		}
 	}
-});*/
+});
 var accounts = db.collection('accounts');
 
 /* login validation methods */
