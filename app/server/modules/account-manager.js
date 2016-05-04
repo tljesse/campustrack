@@ -1,8 +1,8 @@
 
 var crypto 		= require('crypto');
-var MongoDB 	= require('mongodb').Db;
-var Server 		= require('mongodb').Server;
-//var MongoClient = require('mongodb').MongoClient;
+//var MongoDB 	= require('mongodb').Db;
+//var Server 		= require('mongodb').Server;
+var MongoClient = require('mongodb').MongoClient;
 var moment 		= require('moment');
 
 var dbPort 		= 21701;
@@ -11,7 +11,7 @@ var dbName 		= 'heroku_k01txhjb';
 
 /* establish the database connection */
 
-var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
+/*var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
 db.open(function(e, d){
 	if (e) {
 		console.log(e);
@@ -29,7 +29,14 @@ db.open(function(e, d){
 			console.log('mongo :: connected to database :: "'+dbName+'"');
 		}
 	}
+});*/
+
+var url = 'mongodb://tristan:google@ds021701.mlab.com:21701/heroku_k01txhjb';
+MongoClient.connect(url, function(err, db) {
+	assert.equal(null, err);
+	console.log("Connected to the server");
 });
+
 var accounts = db.collection('accounts');
 
 /* login validation methods */
