@@ -37,7 +37,7 @@ MongoClient.connect(url, function(err, db) {
 	console.log("Connected to the server");
 });
 
-var accounts = db.collection('accounts');
+var accounts = MongoClient.collection('accounts');
 
 /* login validation methods */
 
