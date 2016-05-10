@@ -20,14 +20,14 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/app/server/views');
 app.set('view engine', 'jade');
 app.use(cookieParser());
-app.use(session({
+/*app.use(session({
 	secret: 'faeb4453e5d14fe6f6d04637f78077c76c73d1b4',
 	proxy: true,
 	resave: true,
 	saveUninitialized: true,
 	store: new MongoStore({ url: 'mongodb://tristan:google@ds021701.mlab.com:21701/heroku_k01txhjb' })//host: 'ds021701.mlab.com', port: 21701, db: 'dummyDB'})
 	})
-);
+);*/
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(require('stylus').middleware({ src: __dirname + '/app/public' }));
