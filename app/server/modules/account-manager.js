@@ -83,6 +83,7 @@ exports.addNewAccount = function(newData, callback)
 						newData.pass = hash;
 					// append date stamp when record was created //
 						newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
+						newData.height = addslashes(newData.height);
 						accounts.insert(newData, {safe: true}, callback);
 					});
 				}
@@ -213,4 +214,8 @@ var findByMultipleFields = function(a, callback)
 		if (e) callback(e)
 		else callback(null, results)
 	});
+}
+
+function addslashes( str ) {
+    return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
 }
