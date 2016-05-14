@@ -11,9 +11,9 @@ module.exports = function(app) {
 	app.get('/', function(req, res) { 
 		var url_parts = url.parse(req.url,true).query;
 		if(url_parts.msisdn){
-			var textParts = url_parts.query.text.split(/%2C|%3B/);
+			var textParts = url_parts.text.split(/%2C|%3B/);
 			AM.updateLocation({
-				device 	: url_parts.query.msisdn,
+				device 	: url_parts.msisdn,
 				lat 	: textParts[3],
 				long 	: textParts[4],
 				wlat	: 'test',
