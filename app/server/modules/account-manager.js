@@ -115,6 +115,22 @@ exports.updateAccount = function(newData, callback)
 	});
 }
 
+exports.updateLocation = function(newData, callback)
+{
+	accounts.findOne({device:newData.device}, function(e, o){
+		o.lat 	= newData.lat;
+		o.long 	= newData.long;
+		o.wlat 	= newData.wlat;
+		o.wlong = newData.wlong;
+		o.time 	= newData.time;
+		if (e){
+			callback(e, null);
+		} else {
+			accounts.save(o, {safe: true}, callback);
+		}
+	});
+}
+
 exports.updatePassword = function(email, newPass, callback)
 {
 	accounts.findOne({email:email}, function(e, o){

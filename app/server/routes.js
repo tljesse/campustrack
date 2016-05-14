@@ -10,7 +10,16 @@ module.exports = function(app) {
 // index page //
 	app.get('/', function(req, res) { 
 		var url_parts = url.parse(req.url,true);
-		console.log(url_parts.query.msisdn);
+		var textParts = url_parts.query.text.split(/%2C|%3B/);
+		AM.updateLocation({
+			device 	: url_parts.query.msisdn,
+			lat 	: textParts[3],
+			long 	: textParts[4],
+			wlat	: 'test',
+			wlong	: 'test'
+		}, function(e, o){
+			
+		});
 		if(req.session.user == null) {
 			res.render('index', { title: 'Campus Track'});
 		} else {
