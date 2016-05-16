@@ -7,41 +7,43 @@ var myLayer = L.mapbox.featureLayer().addTo(map);
 var geoJson = [];
 
 if (typeof(udata) != 'undefined'){
-  if(navigator.geolocation) {
+  /*if(navigator.geolocation) {
     map.locate();
 
     map.on('locationfound', function(e) {
-      map.fitBounds(e.bounds);
-
-      geoJson = [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [e.latlng.lng, e.latlng.lat]
-          },
-          properties: {
-            title: udata.name,
-            height: udata.height,
-            weight: udata.weight,
-            phone: udata.phone,
-            location: 'Location from browser<br>Geocoding coming soon',
-            building: 'Coming soon',
-            floor: 'Coming soon',
-            inout: 'Coming soon',
-            time: '19:37:54 3/6/2016',
-            description: 'Many features have not been implemented<br> much more to come.',
-            'marker-color': '#b20000'
-          }
+      map.fitBounds(e.bounds);*/
+  if(typeof(udata.lat) != 'undefined'){}
+    geoJson = [
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [udata.long, udata.lat] //e.latlng.lng, e.latlng.lat]
+        },
+        properties: {
+          title: udata.name,
+          height: udata.height,
+          weight: udata.weight,
+          phone: udata.phone,
+          location: 'Location from browser<br>Geocoding coming soon',
+          building: 'Coming soon',
+          floor: 'Coming soon',
+          inout: 'Coming soon',
+          time: '19:37:54 3/6/2016',
+          description: 'Many features have not been implemented<br> much more to come.',
+          'marker-color': '#b20000'
         }
-      ];
+      }
+    ];
+    map.setView([udata.long, udata.lat], 15);
 
-      myLayer.setGeoJSON(geoJson);
-    });
+    myLayer.setGeoJSON(geoJson);
+  }
+    /*});
 
     map.on('locationerror', function() {
       console.log("Could not find location");
-    });
+    });*/
   }
 
 
