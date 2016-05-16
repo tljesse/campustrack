@@ -35,7 +35,7 @@ if (typeof(udata) != 'undefined'){
         }
       }
     ];
-    map.setView([udata.long, udata.lat], 15);
+    map.setView([udata.lat, udata.long], 15);
 
     myLayer.setGeoJSON(geoJson);
   }
