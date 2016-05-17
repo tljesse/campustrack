@@ -12,7 +12,7 @@ if (typeof(udata) != 'undefined'){
 
     map.on('locationfound', function(e) {
       map.fitBounds(e.bounds);*/
-  if(typeof(udata.lat) != 'undefined'){}
+  if(typeof(udata.lat) != 'undefined'){
     geoJson = [
       {
         type: 'Feature',
@@ -43,8 +43,8 @@ if (typeof(udata) != 'undefined'){
 
     map.on('locationerror', function() {
       console.log("Could not find location");
-    });*/
-  }
+    });
+  }*/
 
 
 } else {
