@@ -30,13 +30,13 @@ db.open(function(e, d){
 	}
 });
 
-var accounts = db.collection('accounts');
+var admins = db.collection('admins');
 
 /* login validation methods */
 
 exports.autoLogin = function(user, pass, callback)
 {
-	accounts.findOne({user:user}, function(e, o) {
+	admins.findOne({user:user}, function(e, o) {
 		if (o){
 			o.pass == pass ? callback(o) : callback(null);
 		}	else{
@@ -47,7 +47,7 @@ exports.autoLogin = function(user, pass, callback)
 
 exports.manualLogin = function(user, pass, callback)
 {
-	accounts.findOne({user:user}, function(e, o) {
+	admins.findOne({user:user}, function(e, o) {
 		if (o == null){
 			callback('user-not-found');
 		}	else{
@@ -66,11 +66,11 @@ exports.manualLogin = function(user, pass, callback)
 
 exports.addNewAccount = function(newData, callback)
 {
-	accounts.findOne({user:newData.user}, function(e, o) {
+	admins.findOne({user:newData.user}, function(e, o) {
 		if (o){
 			callback('username-taken');
 		}	else{
-			accounts.findOne({email:newData.email}, function(e, o) {
+			admins.findOne({email:newData.email}, function(e, o) {
 				if (o){
 					callback('email-taken');
 				}	else{
@@ -78,8 +78,7 @@ exports.addNewAccount = function(newData, callback)
 						newData.pass = hash;
 					// append date stamp when record was created //
 						newData.date = moment().format('MMMM Do YYYY, h:mm:ss a');
-						newData.height = addslashes(newData.height);
-						accounts.insert(newData, {safe: true}, callback);
+						admins.insert(newData, {safe: true}, callback);
 					});
 				}
 			});
@@ -89,19 +88,19 @@ exports.addNewAccount = function(newData, callback)
 
 exports.updateAccount = function(newData, callback)
 {
-	accounts.findOne({_id:getObjectId(newData.id)}, function(e, o){
+	admins.findOne({_id:getObjectId(newData.id)}, function(e, o){
 		o.name 		= newData.name;
 		o.email 	= newData.email;
 		o.country 	= newData.country;
 		if (newData.pass == ''){
-			accounts.save(o, {safe: true}, function(e) {
+			admins.save(o, {safe: true}, function(e) {
 				if (e) callback(e);
 				else callback(null, o);
 			});
 		}	else{
 			saltAndHash(newData.pass, function(hash){
 				o.pass = hash;
-				accounts.save(o, {safe: true}, function(e) {
+				admins.save(o, {safe: true}, function(e) {
 					if (e) callback(e);
 					else callback(null, o);
 				});
@@ -110,31 +109,15 @@ exports.updateAccount = function(newData, callback)
 	});
 }
 
-exports.updateLocation = function(newData, callback)
-{
-	accounts.findOne({device:newData.device}, function(e, o){
-		o.lat 	= newData.lat;
-		o.long 	= newData.long;
-		o.wlat 	= newData.wlat;
-		o.wlong = newData.wlong;
-		o.time 	= newData.time;
-		if (e){
-			callback(e, null);
-		} else {
-			accounts.save(o, {safe: true}, callback);
-		}
-	});
-}
-
 exports.updatePassword = function(email, newPass, callback)
 {
-	accounts.findOne({email:email}, function(e, o){
+	admins.findOne({email:email}, function(e, o){
 		if (e){
 			callback(e, null);
 		}	else{
 			saltAndHash(newPass, function(hash){
 		        o.pass = hash;
-		        accounts.save(o, {safe: true}, callback);
+		        admins.save(o, {safe: true}, callback);
 			});
 		}
 	});
@@ -144,24 +127,24 @@ exports.updatePassword = function(email, newPass, callback)
 
 exports.deleteAccount = function(id, callback)
 {
-	accounts.remove({_id: getObjectId(id)}, callback);
+	admins.remove({_id: getObjectId(id)}, callback);
 }
 
 exports.getAccountByEmail = function(email, callback)
 {
-	accounts.findOne({email:email}, function(e, o){ callback(o); });
+	admins.findOne({email:email}, function(e, o){ callback(o); });
 }
 
 exports.validateResetLink = function(email, passHash, callback)
 {
-	accounts.find({ $and: [{email:email, pass:passHash}] }, function(e, o){
+	admins.find({ $and: [{email:email, pass:passHash}] }, function(e, o){
 		callback(o ? 'ok' : null);
 	});
 }
 
 exports.getAllRecords = function(callback)
 {
-	accounts.find().toArray(
+	admins.find().toArray(
 		function(e, res) {
 		if (e) callback(e)
 		else callback(null, res)
@@ -170,7 +153,7 @@ exports.getAllRecords = function(callback)
 
 exports.delAllRecords = function(callback)
 {
-	accounts.remove({}, callback); // reset accounts collection for testing //
+	admins.remove({}, callback); // reset admins collection for testing //
 }
 
 /* private encryption & validation methods */
@@ -210,7 +193,7 @@ var getObjectId = function(id)
 
 var findById = function(id, callback)
 {
-	accounts.findOne({_id: getObjectId(id)},
+	admins.findOne({_id: getObjectId(id)},
 		function(e, res) {
 		if (e) callback(e)
 		else callback(null, res)
@@ -220,7 +203,7 @@ var findById = function(id, callback)
 var findByMultipleFields = function(a, callback)
 {
 // this takes an array of name/val pairs to search against {fieldName : 'value'} //
-	accounts.find( { $or : a } ).toArray(
+	admins.find( { $or : a } ).toArray(
 		function(e, results) {
 		if (e) callback(e)
 		else callback(null, results)

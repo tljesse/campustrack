@@ -1,6 +1,7 @@
 
 var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
+var AD = require('./modules/admins-manager');
 var EM = require('./modules/email-dispatcher');
 //var SI = require('./modules/sms-inbound.js');
 var url = require('url');
@@ -102,6 +103,27 @@ module.exports = function(app) {
 			}
 		});
 	});
+
+// admin login page - cannot remember //
+	app.get('/adminLogin', function(req,res){
+	// check for credentials in a cookie //
+		if (req.cookies.user == undefined || req.cookies.pass == undefined){
+			res.render('adminLogin', { title: 'Administrator Login' });
+		} else {
+			res.redirect('/adminHome');
+		}
+	});
+
+	app.post('/adminLogin', function(req, res){
+		AD.manualLogin(req.body['user'], req.body['pass'], function(e, o){
+			if (!o){
+				res.status(400).send(e);
+			} else {
+				req.session.user = o;
+				res.status(200).send(o);
+			}
+		})
+	});
 	
 // logged-in user demo //
 	app.get('/accountDemo', function(req, res) {
@@ -195,6 +217,27 @@ module.exports = function(app) {
 			if (e){
 				res.status(400).send(e);
 			}	else{
+				res.status(200).send('ok');
+			}
+		});
+	});
+
+// create new admin //
+	app.get('/adminSignup', function(req, res){
+		res.render('adminSignup', { title: 'Admin Signup' });
+	});
+
+	app.post('/adminSignup', function(req, res){
+		AD.addNewAccount({
+			name 	: req.body['name'],
+			email 	: req.body['email'],
+			phone 	: req.body['phone'],
+			user 	: req.body['user'],
+			pass 	: req.body['pass']
+		}, function(e){
+			if (e) {
+				res.status(400).send(e);
+			} else {
 				res.status(200).send('ok');
 			}
 		});

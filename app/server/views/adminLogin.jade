@@ -1,0 +1,39 @@
+
+extends layout
+
+block content
+
+	include modals/nav
+
+	script.
+		$("nav.navbar-fixed-top").autoHidingNavbar();
+
+	#login-container
+		form( method="post")#login-form.well.well-lg.span4
+			h1 Admin Login
+			p.subheading Please Login To Your Account
+			label Username 
+			input.controls(type="text", name="user", id='user-tf').span4.required
+			label Password
+			input.controls(type="password", name="pass", id='pass-tf').span4.required
+			button(type="submit")#btn-login.btn.btn-primary
+				i.icon-lock.icon-white
+				| Sign in
+			div.clear-fix
+			hr
+			div.btm-links
+				a(href='#')#forgot-password Forgot Your Password?
+				a(href='/signup')#create-account Register a Device
+
+	include modals/alert
+	include modals/lost-password
+
+block scripts
+	script(src='/vendor/jquery.form.js')
+	script(src='/vendor/bootstrap-modal.js')
+	script(src='/vendor/bootstrap-transition.js')
+	script(src='/vendor/bootstrap.min.js')
+	script(src='/js/views/login.js')
+	script(src='/js/controllers/loginController.js')
+	script(src='/js/form-validators/loginValidator.js')
+	script(src='/js/form-validators/emailValidator.js')
