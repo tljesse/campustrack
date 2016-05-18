@@ -14,7 +14,7 @@ if (typeof(udata) != 'undefined'){
     map.on('locationfound', function(e) {
       map.fitBounds(e.bounds);*/
   if(typeof(udata.lat) != 'undefined'){
-    geocoder.geocodeReverse([udata.long, udata.lat], testLocation);
+    geocoder.reverseQuery([udata.long, udata.lat], testLocation);
     geoJson = [
       {
         type: 'Feature',
