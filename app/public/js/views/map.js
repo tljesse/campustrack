@@ -3,6 +3,7 @@ var info = document.getElementById('info');
 var map = L.mapbox.map('map', 'mapbox.streets')
     .setView([40.0012363,-83.0099576], 15);
 
+var geocoder = L.mapbox.geocoder('mapbox.places').addTo(map);
 var myLayer = L.mapbox.featureLayer().addTo(map);
 var geoJson = [];
 
@@ -13,6 +14,7 @@ if (typeof(udata) != 'undefined'){
     map.on('locationfound', function(e) {
       map.fitBounds(e.bounds);*/
   if(typeof(udata.lat) != 'undefined'){
+    geocoder.reverseQuery([udata.long, udata.lat], testLocation);
     geoJson = [
       {
         type: 'Feature',
@@ -113,5 +115,9 @@ empty();
 
 function empty() {
   info.innerHTML = '<div><strong>Click a marker</strong></div>';
+}
+
+function testLocation(err, data){
+  console.log(data);
 }
 

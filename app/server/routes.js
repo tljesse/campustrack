@@ -14,8 +14,8 @@ module.exports = function(app) {
 			var textParts = url_parts.text.split(/_/);
 			AM.updateLocation({
 				device 	: url_parts.msisdn,
-				lat 	: textParts[3],
-				long 	: textParts[4],
+				lat 	: textParts[0],
+				long 	: textParts[1],
 				wlat	: 'test',
 				wlong	: 'test'
 			}, function(e, o){
