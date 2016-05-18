@@ -85,11 +85,13 @@ AccountValidator.prototype.validateForm = function()
 	if (this.validateEmail(this.formFields[1].val()) == false) {
 		this.controlGroups[1].addClass('error'); e.push('Please Enter A Valid Email');
 	}
-	if (this.validateHeight(this.formFields[4].val()) == false) {
-		this.controlGroups[4].addClass('error'); e.push('Please Enter a Valid Height (ft\'in\'\')');
-	}
-	if (this.validateWeight(this.formFields[5].val()) == false) {
-		this.controlGroups[5].addClass('error'); e.push('Please Enter a Valid Weight');
+	if (window.location.href.indexOf('admin') < 0){
+		if (this.validateHeight(this.formFields[4].val()) == false) {
+			this.controlGroups[4].addClass('error'); e.push('Please Enter a Valid Height (ft\'in\'\')');
+		}
+		if (this.validateWeight(this.formFields[5].val()) == false) {
+			this.controlGroups[5].addClass('error'); e.push('Please Enter a Valid Weight');
+		}
 	}
 	if (this.validatePhone(this.formFields[6].val()) == false) {
 		this.controlGroups[6].addClass('error'); e.push('Please Enter a Valid Phone Number (xxx-xxx-xxxx)');
