@@ -19,6 +19,7 @@ block content
 			};
 
 	script(src='js/views/map.js')
+	include modals/alert
 
 block scripts
 	script(src='/vendor/jquery.form.js')
@@ -28,5 +29,5 @@ block scripts
 	if locals.blScripts
 			each script in blScripts
 				script(type='text/javascript', src= script)
-	script(src='/js/views/reset.js')
-	script(src='/js/form-validators/resetValidator.js')
+	script(src='/js/views/home.js')
+	script(src='/js/controllers/homeController.js')
