@@ -3,7 +3,7 @@ var info = document.getElementById('info');
 var map = L.mapbox.map('map', 'mapbox.streets')
     .setView([40.0012363,-83.0099576], 15);
 
-var geocoder = L.mapbox.geocoder('mapbox.places').addTo(map);
+var geocoder = L.mapbox.geocoder('mapbox.places');
 var myLayer = L.mapbox.featureLayer().addTo(map);
 var geoJson = [];
 
