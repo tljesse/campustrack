@@ -2,6 +2,8 @@
 extends layout
 
 block content
+	include modals/nav
+
 	div.container(style='margin:20px')
 		table.table.table-bordered.table-striped
 			thead
@@ -25,3 +27,12 @@ block content
 					td= accts[i].phone
 					td= accts[i].user
 					td= accts[i].date
+
+block scripts
+	script(src='/vendor/jquery.form.js')
+	script(src='/vendor/bootstrap-modal.js')
+	script(src='/vendor/bootstrap-transition.js')
+	script(src='/vendor/bootstrap.min.js')
+	script(src='/js/views/home.js')
+	script(src='/js/controllers/homeController.js')
+	script(src='/js/form-validators/accountValidator.js')

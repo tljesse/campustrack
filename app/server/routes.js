@@ -329,10 +329,15 @@ module.exports = function(app) {
 	
 // view & delete accounts //
 	
-	app.get('/print', function(req, res) {
-		AM.getAllRecords( function(e, accounts){
-			res.render('print', { title : 'Account List', accts : accounts });
-		});
+	app.get('/userList', function(req, res) {
+	// only administrators can view the records page //
+		if (req.session.user.height == null){
+			res.redirect('/');
+		} else {
+			AM.getAllRecords( function(e, accounts){
+				res.render('print', { title : 'Account List', accts : accounts });
+			});
+		}
 	});
 	
 	app.post('/delete', function(req, res){
