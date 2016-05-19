@@ -3,30 +3,30 @@ extends layout
 
 block content
 	include modals/nav
-	div.wrapper-user
-		div.container(style='margin:80px')
-			table.table.table-bordered.table-striped
-				thead
-					tr
-						th(style='width:40px') #
-						th(style='width:180px') Name
-						th(style='width:200px') Location
-						th(style='width:180px') Height
-						th(style='width:180px') Weight
-						th(style='width:180px') Phone
-						th(style='width:180px') Username
-						th Account Created
-				tbody
-				- for (var i = 0; i < accts.length; i++)
-					tr
-						td= i+1
-						td= accts[i].name
-						td= accts[i].country
-						td= accts[i].height
-						td= accts[i].weight
-						td= accts[i].phone
-						td= accts[i].user
-						td= accts[i].date
+
+	div.container(style='margin:80px')
+		table.table.table-bordered.table-striped
+			thead
+				tr
+					th(style='width:40px') #
+					th(style='width:180px') Name
+					th(style='width:200px') Location
+					th(style='width:180px') Height
+					th(style='width:180px') Weight
+					th(style='width:180px') Phone
+					th(style='width:180px') Username
+					th Account Created
+			tbody
+			- for (var i = 0; i < accts.length; i++)
+				tr
+					td= i+1
+					td= accts[i].name
+					td= accts[i].country
+					td= accts[i].height
+					td= accts[i].weight
+					td= accts[i].phone
+					td= accts[i].user
+					td= accts[i].date
 
 block scripts
 	script(src='/vendor/jquery.form.js')

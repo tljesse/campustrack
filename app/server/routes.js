@@ -337,6 +337,7 @@ module.exports = function(app) {
 					title : 'Campus Track | Account List', 
 					accts : accounts,
 					name  : req.session.user.name,
+					pstyl : ['/css/userList.css'],
 					admin : 'Yes'
 				});
 			});
