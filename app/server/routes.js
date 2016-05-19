@@ -157,14 +157,17 @@ module.exports = function(app) {
 		// redirect to admin map if admin //
 			res.redirect('/adminDemo');
 		} else {
-			res.render('demo', {
-				title: 'Campus Track | Account Demo',
-				name: req.session.user.name,
-				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'],
-				blScripts: ['/js/views/home.js', '/js/controllers/homeController.js'],
-				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'],
-				udata : req.session.user
+			AM.getAccountByEmail(req.session.user.email, function(o) {
+				res.render('demo', {
+					title: 'Campus Track | Account Demo',
+					name: req.session.user.name,
+					scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'],
+					blScripts: ['/js/views/home.js', '/js/controllers/homeController.js'],
+					styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'],
+					udata : o
+				});
 			});
+			
 		}
 	});
 
