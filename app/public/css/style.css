@@ -55,6 +55,12 @@ h1.index,
   line-height: 180%;
   padding: 100px 0;
 }
+.wrapper-user {
+  background-color: #41616c;
+}
+table {
+  background-color: #d5d5d5;
+}
 .wrapper p {
   font-size: 24px;
 }
