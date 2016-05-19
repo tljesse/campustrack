@@ -25,6 +25,13 @@ module.exports = function(app) {
 		}
 		if(req.session.user == null) {
 			res.render('index', { title: 'Campus Track'});
+		} else if(req.session.user.height == null){
+		// This would be an admin account //
+			res.render('index', {
+				title: 'Campus Track',
+				name: req.session.user.name,
+				admin: 'Yes'
+			})
 		} else {
 			res.render('index', { 
 				title: 'Campus Track',
@@ -37,6 +44,12 @@ module.exports = function(app) {
 	app.get('/about', function(req, res) { 
 		if(req.session.user == null) {
 			res.render('about', { title: 'Campus Track | About Us'});
+		} else if(req.session.user.height == null) {
+			res.render('about', {
+				title: 'Campus Track | About Us',
+				name: req.session.user.name,
+				admin: 'Yes'
+			});
 		} else {
 			res.render('about', {
 				title: 'Campus Track | About Us',
@@ -57,14 +70,24 @@ module.exports = function(app) {
 			res.render('demo', {
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
-				title: 'Campus Track | Demo'});
+				title: 'Campus Track | Demo'
+			});
 			res.end();
+		} else if(req.session.user.height == null){
+			res.render('demo', {
+				name: req.session.user.name,
+				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
+				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
+				title: 'Campus Track | Demo',
+				admin: 'Yes'
+			});
 		} else {
 			res.render('demo', {
 				name: req.session.user.name,
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
-				title: 'Campus Track | Demo'}); 
+				title: 'Campus Track | Demo'
+			}); 
 		}
 		
 	});
@@ -76,13 +99,13 @@ module.exports = function(app) {
 	// check if the user's credentials are saved in a cookie //
 		if (req.cookies.user == undefined || req.cookies.pass == undefined){
 			res.render('login', { title: 'Hello - Please Login To Your Account' });
-		}	else{
+		} else {
 	// attempt automatic login //
 			AM.autoLogin(req.cookies.user, req.cookies.pass, function(o){
 				if (o != null){
 				    req.session.user = o;
 					res.redirect('/account');
-				}	else{
+				} else {
 					res.render('login', { title: 'Hello - Please Login To Your Account' });
 				}
 			});
@@ -128,8 +151,11 @@ module.exports = function(app) {
 // logged-in user demo //
 	app.get('/accountDemo', function(req, res) {
 		if (req.session.user == null){
-			//if user is not logged-in redirect to login
+		// if user is not logged-in redirect to login //
 			res.redirect('/login');
+		} else if(req.session.user.height == null){
+		// redirect to admin map if admin //
+			res.redirect('/adminDemo');
 		} else {
 			res.render('demo', {
 				title: 'Campus Track | Account Demo',
@@ -151,7 +177,14 @@ module.exports = function(app) {
 		if (req.session.user == null){
 	// if user is not logged-in redirect back to login page //
 			res.redirect('/login');
-		}	else{
+		} else if(req.session.user.height == null){
+			res.render('adminHome', {
+				name: req.session.user.name,
+				title : 'Administrator Info',
+				udata : req.session.user,
+				admin : 'Yes'
+			});
+		} else {
 			res.render('home', {
 				name: req.session.user.name,
 				title : 'Control Panel',
@@ -299,7 +332,7 @@ module.exports = function(app) {
 	app.get('/print', function(req, res) {
 		AM.getAllRecords( function(e, accounts){
 			res.render('print', { title : 'Account List', accts : accounts });
-		})
+		});
 	});
 	
 	app.post('/delete', function(req, res){
