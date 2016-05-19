@@ -179,7 +179,7 @@ module.exports = function(app) {
 			res.redirect('/login');
 		} else if(req.session.user.height == null){
 			res.render('adminHome', {
-				name: req.session.user.name,
+				name  : req.session.user.name,
 				title : 'Administrator Info',
 				udata : req.session.user,
 				admin : 'Yes'
@@ -333,7 +333,12 @@ module.exports = function(app) {
 	// only administrators can view the records page //
 		if (req.session.user.height == null){
 			AM.getAllRecords( function(e, accounts){
-				res.render('print', { title : 'Account List', accts : accounts });
+				res.render('print', { 
+					title : 'Campus Track | Account List', 
+					accts : accounts,
+					name  : req.session.user.name,
+					admin : 'Yes'
+				});
 			});
 		} else {
 			res.redirect('/');
