@@ -18,7 +18,8 @@ module.exports = function(app) {
 				lat 	: textParts[0],
 				long 	: textParts[1],
 				wlat	: 'test',
-				wlong	: 'test'
+				wlong	: 'test',
+				time 	: url_parts.message-timestamp
 			}, function(e, o){
 				
 			});
