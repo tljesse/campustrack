@@ -333,8 +333,7 @@ module.exports = function(app) {
 	// only administrators can view the records page //
 		if (req.session.user == null){
 			res.redirect('/');
-		}
-		if (req.session.user.height == null){
+		} else if (req.session.user.height == null){
 			AM.getAllRecords( function(e, accounts){
 				res.render('print', { 
 					title : 'Campus Track | Account List', 
