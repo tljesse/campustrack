@@ -331,6 +331,9 @@ module.exports = function(app) {
 	
 	app.get('/userList', function(req, res) {
 	// only administrators can view the records page //
+		if (req.session.user == null){
+			res.redirect('/');
+		}
 		if (req.session.user.height == null){
 			AM.getAllRecords( function(e, accounts){
 				res.render('print', { 

@@ -19,7 +19,7 @@ $(document).ready(function(){
 		success	: function(responseText, status, xhr, $form){
 			if (status == 'success') {
 				if (window.location.href.indexOf('admin') > -1) {
-					window.location.href = '/print';
+					window.location.href = '/userList';
 				} else {
 					window.location.href = '/account';
 				}
