@@ -19,7 +19,7 @@ module.exports = function(app) {
 				long 	: textParts[1],
 				wlat	: 'test',
 				wlong	: 'test',
-				time 	: url_parts.message-timestamp
+				time 	: url_parts
 			}, function(e, o){
 				
 			});
