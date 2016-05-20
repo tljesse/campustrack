@@ -6,6 +6,7 @@ var map = L.mapbox.map('map', 'mapbox.streets')
 //var geocoder = L.mapbox.geocoder('mapbox.places');
 var myLayer = L.mapbox.featureLayer().addTo(map);
 var geoJson = [];
+var noCoord = true;
 
 if (typeof(udata) != 'undefined'){
   /*if(navigator.geolocation) {
@@ -13,34 +14,66 @@ if (typeof(udata) != 'undefined'){
 
     map.on('locationfound', function(e) {
       map.fitBounds(e.bounds);*/
-  if(typeof(udata.lat) != 'undefined'){
     //geocoder.reverseQuery([udata.long, udata.lat], testLocation);
+  if(admin == 'Yes'){
+    var dot = 0;
+    for (var i = 0; i < udata.length; i ++){
+      if (typeof(udata[i].lat) != 'undefined'){
+        geoJson[dot] = {
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [udata[i].long, udata[i].lat] //e.latlng.lng, e.latlng.lat]
+            },
+            properties: {
+              title: udata[i].name,
+              height: udata[i].height,
+              weight: udata[i].weight,
+              phone: udata[i].phone,
+              location: 'Location from browser<br>Geocoding coming soon',
+              building: 'Coming soon',
+              floor: 'Coming soon',
+              inout: 'Coming soon',
+              time: udata[i].time,
+              description: 'Many features have not been implemented<br> much more to come.',
+              'marker-color': '#b20000'
+            }
+        };
+        dot++;
+        noCoord = false;
+        map.setView([udata[i].lat, udata[i].long], 15);
+      } // end if check for latlng //
+    }
+  } else if (typeof(udata[0].lat) != 'undefined'){
     geoJson = [
       {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [udata.long, udata.lat] //e.latlng.lng, e.latlng.lat]
+          coordinates: [udata[i].long, udata[i].lat] //e.latlng.lng, e.latlng.lat]
         },
         properties: {
-          title: udata.name,
-          height: udata.height,
-          weight: udata.weight,
-          phone: udata.phone,
+          title: udata[i].name,
+          height: udata[i].height,
+          weight: udata[i].weight,
+          phone: udata[i].phone,
           location: 'Location from browser<br>Geocoding coming soon',
           building: 'Coming soon',
           floor: 'Coming soon',
           inout: 'Coming soon',
-          time: '19:37:54 3/6/2016',
+          time: udata[i].time,
           description: 'Many features have not been implemented<br> much more to come.',
           'marker-color': '#b20000'
         }
       }
     ];
-    map.setView([udata.lat, udata.long], 15);
-
-    myLayer.setGeoJSON(geoJson);
+    noCoord = false;
+    map.setView([udata[0].lat, udata[0].long], 15);
   }
+
+  
+
+  myLayer.setGeoJSON(geoJson);
     /*});
 
     map.on('locationerror', function() {
@@ -49,7 +82,9 @@ if (typeof(udata) != 'undefined'){
   }*/
 
 
-} else {
+}
+
+if (noCoord) {
   geoJson = [
       {
           type: 'Feature',

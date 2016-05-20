@@ -8,15 +8,11 @@ block content
 	div#info.info
 
 	if locals.udata
+		- var i = 0;
 		script.
-			var udata= {
-				name: '#{udata.name}',
-				height: '#{udata.height}',
-				weight: '#{udata.weight}',
-				phone: '#{udata.phone}',
-				lat: '#{udata.lat}',
-				long: '#{udata.long}'
-			};
+			var udata = !{udata};
+			var admin = '#{admin}';
+			console.log(udata);
 
 	script(src='js/views/map.js')
 	include modals/alert

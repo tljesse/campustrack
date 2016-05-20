@@ -165,12 +165,31 @@ module.exports = function(app) {
 					scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'],
 					blScripts: ['/js/views/home.js', '/js/controllers/homeController.js'],
 					styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'],
-					udata : o
+					udata : JSON.strinify(o),
+					admin : 'No'
 				});
 			});
 			
 		}
 	});
+
+	app.get('/adminDemo', function(req, res) {
+		if (req.session.user == null || typeof(req.session.user.height) != 'undefined'){
+			res.redirect('/');
+		} else {
+			AM.getAllRecords( function(e, accounts){
+				res.render('demo', { 
+					title : 'Campus Track | Administrator Map', 
+					udata : JSON.stringify(accounts),
+					name  : req.session.user.name,
+					scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'],
+					blScripts: ['/js/views/home.js', '/js/controllers/homeController.js'],
+					styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'],
+					admin : 'Yes'
+				});
+			});
+		}
+	})
 
 
 
