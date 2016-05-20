@@ -11,8 +11,10 @@ block content
 		- var i = 0;
 		script.
 			var udata = !{udata};
+	
+	if locals.admin
+		script.
 			var admin = '#{admin}';
-			console.log(udata);
 
 	script(src='js/views/map.js')
 	include modals/alert

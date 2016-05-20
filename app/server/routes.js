@@ -165,8 +165,7 @@ module.exports = function(app) {
 					scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'],
 					blScripts: ['/js/views/home.js', '/js/controllers/homeController.js'],
 					styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'],
-					udata : JSON.stringify(o),
-					admin : 'No'
+					udata : JSON.stringify(o)
 				});
 			});
 			

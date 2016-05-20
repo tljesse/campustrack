@@ -15,7 +15,7 @@ if (typeof(udata) != 'undefined'){
     map.on('locationfound', function(e) {
       map.fitBounds(e.bounds);*/
     //geocoder.reverseQuery([udata.long, udata.lat], testLocation);
-  if(admin == 'Yes'){
+  if(typeof(admin) != 'undefined'){
     var dot = 0;
     for (var i = 0; i < udata.length; i ++){
       if (typeof(udata[i].lat) != 'undefined'){
