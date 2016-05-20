@@ -3,9 +3,10 @@ var info = document.getElementById('info');
 var map = L.mapbox.map('map', 'mapbox.streets')
     .setView([40.0012363,-83.0099576], 15);
 
-//var geocoder = L.mapbox.geocoder('mapbox.places');
+var geocoder = L.mapbox.geocoder('mapbox.places');
 var myLayer = L.mapbox.featureLayer().addTo(map);
 var geoJson = [];
+var locData;
 var noCoord = true;
 
 if (typeof(udata) != 'undefined'){
@@ -14,11 +15,13 @@ if (typeof(udata) != 'undefined'){
 
     map.on('locationfound', function(e) {
       map.fitBounds(e.bounds);*/
-    //geocoder.reverseQuery([udata.long, udata.lat], testLocation);
   if(typeof(admin) != 'undefined'){
     var dot = 0;
     for (var i = 0; i < udata.length; i ++){
       if (typeof(udata[i].lat) != 'undefined'){
+        geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], function(err, res){
+          locData = res.features[0].place_name;
+        });
         geoJson[dot] = {
             type: 'Feature',
             geometry: {
@@ -30,7 +33,7 @@ if (typeof(udata) != 'undefined'){
               height: udata[i].height,
               weight: udata[i].weight,
               phone: udata[i].phone,
-              location: 'Location from browser<br>Geocoding coming soon',
+              location: locData,
               building: 'Coming soon',
               floor: 'Coming soon',
               inout: 'Coming soon',
@@ -45,6 +48,7 @@ if (typeof(udata) != 'undefined'){
       } // end if check for latlng //
     }
   } else if (typeof(udata.lat) != 'undefined'){
+    geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], testLocation);
     geoJson = [
       {
         type: 'Feature',
@@ -57,7 +61,7 @@ if (typeof(udata) != 'undefined'){
           height: udata.height,
           weight: udata.weight,
           phone: udata.phone,
-          location: 'Location from browser<br>Geocoding coming soon',
+          location: locData,
           building: 'Coming soon',
           floor: 'Coming soon',
           inout: 'Coming soon',
@@ -154,5 +158,7 @@ function empty() {
 
 function testLocation(err, data){
   console.log(data);
+  locData = data.features[0].place_name;
+  console.log(locData);
 }
 

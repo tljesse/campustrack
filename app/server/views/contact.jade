@@ -1,0 +1,31 @@
+
+extends layout
+
+block content
+	include modals/nav
+
+	div.jumbotron.contact-jt.vertical-center
+		div.container.text-center
+			h1.index Contact Us
+	div.wrapper
+		div.container.theme-showcase
+			div.page-header
+			div.row.row-centered.vertical-center
+				div.col-sm-10.col-sm-offset-1.text-center
+					div.page-header
+						form.form-horizontal(role='form', method='post', action='contact.php')
+							div.form-group
+								label.col-sm-2.control-label(for='name') Restaurant
+								div.col-sm-9
+									input#name.form-control(type='text', name='name', placeholder='Restaurant Name', value='')
+
+
+	include modals/alert
+
+block scripts
+	script(src='/vendor/jquery.form.js')
+	script(src='/vendor/bootstrap-modal.js')
+	script(src='/vendor/bootstrap-transition.js')
+	script(src='/vendor/bootstrap.min.js')
+	script(src='/js/views/home.js')
+	script(src='/js/controllers/homeController.js')

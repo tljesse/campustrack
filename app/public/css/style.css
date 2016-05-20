@@ -69,6 +69,10 @@ h1.index,
   background-image: url("/img/knowledge.jpg");
   height: 450px;
 }
+.contact-jt:before {
+  background-image: url("/img/globe.jpg");
+  height: 450px;
+}
 .jumbotron {
   background-color: #000;
   box-shadow: 10% 0 20px -4px #fff inset, -20px 0 8px -4px #fff inset;
@@ -76,6 +80,9 @@ h1.index,
   margin-top: 50px;
 }
 .about-jt {
+  height: 450px;
+}
+.contact-jt {
   height: 450px;
 }
 .jumbotron:before {
