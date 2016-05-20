@@ -44,31 +44,31 @@ if (typeof(udata) != 'undefined'){
         map.setView([udata[i].lat, udata[i].long], 15);
       } // end if check for latlng //
     }
-  } else if (typeof(udata[0].lat) != 'undefined'){
+  } else if (typeof(udata.lat) != 'undefined'){
     geoJson = [
       {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [udata[i].long, udata[i].lat] //e.latlng.lng, e.latlng.lat]
+          coordinates: [udata.long, udata.lat] //e.latlng.lng, e.latlng.lat]
         },
         properties: {
-          title: udata[i].name,
-          height: udata[i].height,
-          weight: udata[i].weight,
-          phone: udata[i].phone,
+          title: udata.name,
+          height: udata.height,
+          weight: udata.weight,
+          phone: udata.phone,
           location: 'Location from browser<br>Geocoding coming soon',
           building: 'Coming soon',
           floor: 'Coming soon',
           inout: 'Coming soon',
-          time: udata[i].time,
+          time: udata.time,
           description: 'Many features have not been implemented<br> much more to come.',
           'marker-color': '#b20000'
         }
       }
     ];
     noCoord = false;
-    map.setView([udata[0].lat, udata[0].long], 15);
+    map.setView([udata.lat, udata.long], 15);
   }
 
   
