@@ -10,7 +10,7 @@ module.exports = function(app) {
 
 // index page //
 	app.get('/', function(req, res) { 
-		var url_parts = url.parse(req.url,true).query;
+		/*var url_parts = url.parse(req.url,true).query;
 		if(url_parts.msisdn){
 			var textParts = url_parts.text.split(/_/);
 			AM.updateLocation({
@@ -23,7 +23,7 @@ module.exports = function(app) {
 			}, function(e, o){
 				
 			});
-		}
+		}*/
 		if(req.session.user == null) {
 			res.render('index', { title: 'Campus Track'});
 		} else if(req.session.user.height == null){
