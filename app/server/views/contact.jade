@@ -13,11 +13,30 @@ block content
 			div.row.row-centered.vertical-center
 				div.col-sm-10.col-sm-offset-1.text-center
 					div.page-header
-						form.form-horizontal(role='form', method='post', action='contact.php')
+						form.form-horizontal(role='form', method='', action='/contact')
 							div.form-group
-								label.col-sm-2.control-label(for='name') Restaurant
-								div.col-sm-9
-									input#name.form-control(type='text', name='name', placeholder='Restaurant Name', value='')
+								label.col-sm-3.col-sm-offset-2.control-label(for='name') Name
+								div.col-sm-7
+									input#name.form-control(type='text', name='name', placeholder='First & Last Name', value='')
+							div.form-group
+								label.col-sm-3.col-sm-offset-2.control-label(for='email') E-Mail
+								div.col-sm-7
+									input#email.form-control(type='text', name='email', placeholder='Your E-Mail', value='')
+							div.form-group
+								label.col-sm-3.col-sm-offset-2.control-label(for='purpose') Purpose
+								div.col-sm-7
+									select#purpose.form-control(name='purpose')
+										option(value='1') General Inquiry
+										option(value='2') Question About Your Device
+										option(value='3') Question About Your Account
+										option(value='4') Reporting a Problem
+							div.form-group
+								label.col-sm-3.col-sm-offset-2.control-label(for='message') Message
+								div.col-sm-7
+									textarea#message.form-control(rows='4', name='message', placeholder='Enter your message', value='')
+							div.form-group
+								div.col-sm-8.col-sm-offset-1
+									input#submit.btn.btn-primary.form-control(type='submit', name='submit', value='Send')
 
 
 	include modals/alert
