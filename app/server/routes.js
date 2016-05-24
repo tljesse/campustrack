@@ -196,7 +196,9 @@ module.exports = function(app) {
 			res.send('notLogged');
 		} else {
 			res.setHeader('Content-Type', 'application/json');
-			res.send(JSON.stringify(req.session.user));
+			AM.getAccountByEmail(req.session.user.email, function(o){
+				res.send(JSON.stringify(o));
+			});	
 		}
 	});
 
