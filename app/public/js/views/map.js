@@ -5,9 +5,35 @@ var map = L.mapbox.map('map', 'mapbox.streets')
 
 var geocoder = L.mapbox.geocoder('mapbox.places');
 var myLayer = L.mapbox.featureLayer().addTo(map);
-var geoJson = [];
 var locData;
 var noCoord = true;
+
+console.log(udata);
+
+var geoJson = [
+    {
+        type: 'Feature',
+        geometry: {
+            type: 'Point',
+            coordinates: [-83.011445, 40.004020]
+        },
+        properties: {
+            title: 'John Stamos',
+            height: '5\'10\"',
+            weight: '165 lbs',
+            phone: '555-7635',
+            location: '112 W Woodruff Ave<br>Columbus, OH 43210',
+            building: 'YES',
+            floor: '2',
+            inout: '72 degrees, indoors*',
+      time: '19:37:54 3/6/2016',
+            description: 'Location, floor, and temperature are based on<br> last reported result and may not be accurate.',
+            'marker-color': '#b20000'
+        }
+    }
+];
+
+myLayer.setGeoJSON(geoJson);
 
 if (typeof(udata) != 'undefined'){
   /*if(navigator.geolocation) {
@@ -17,67 +43,92 @@ if (typeof(udata) != 'undefined'){
       map.fitBounds(e.bounds);*/
   if(typeof(admin) != 'undefined'){
     var dot = 0;
-    for (var i = 0; i < udata.length; i ++){
-      if (typeof(udata[i].lat) != 'undefined'){
-        geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], function(err, res){
-          locData = res.features[0].place_name;
+    for (var i = 0; i < udata.length; i++){
+      if (typeof(udata[i].lat) != 'undefined' && typeof(udata[i].long) != 'undefined'){
+        console.log(udata.length);
+        var promise = new Promise(function(resolve, reject) {
+          geocoder.reverseQuery([parseFloat(udata[i].long), parseFloat(udata[i].lat)], function(err, res){
+            resolve(res.features[0].place_name);
+          });
         });
-        geoJson[dot] = {
-            type: 'Feature',
-            geometry: {
-              type: 'Point',
-              coordinates: [udata[i].long, udata[i].lat] //e.latlng.lng, e.latlng.lat]
-            },
-            properties: {
-              title: udata[i].name,
-              height: udata[i].height,
-              weight: udata[i].weight,
-              phone: udata[i].phone,
-              location: locData,
-              building: 'Coming soon',
-              floor: 'Coming soon',
-              inout: 'Coming soon',
-              time: udata[i].time,
-              description: 'Many features have not been implemented<br> much more to come.',
-              'marker-color': '#b20000'
-            }
-        };
-        dot++;
-        noCoord = false;
-        map.setView([udata[i].lat, udata[i].long], 15);
+
+        promise.then(function(response) {
+          var address = response.split(',');
+          console.log(udata);
+          console.log(i-1);
+          geoJson[dot] = {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [udata[i-1].long, udata[i-1].lat] //e.latlng.lng, e.latlng.lat]
+              },
+              properties: {
+                title: udata[i-1].name,
+                height: udata[i-1].height,
+                weight: udata[i-1].weight,
+                phone: udata[i-1].phone,
+                location: address[0] + '<br>' + address[1] + ', ' + address[2],
+                building: 'Coming soon',
+                floor: 'Coming soon',
+                inout: 'Coming soon',
+                time: udata[i-1].time,
+                description: 'Many features have not been implemented<br> much more to come.',
+                'marker-color': '#b20000'
+              }
+          };
+          dot++;
+          noCoord = false;
+          map.setView([udata[i-1].lat, udata[i-1].long], 15);
+          myLayer.setGeoJSON(geoJson);
+        }, function(error){
+          console.error("Failed!");
+        });
+        
+        
       } // end if check for latlng //
     }
   } else if (typeof(udata.lat) != 'undefined'){
-    geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], testLocation);
-    geoJson = [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [udata.long, udata.lat] //e.latlng.lng, e.latlng.lat]
-        },
-        properties: {
-          title: udata.name,
-          height: udata.height,
-          weight: udata.weight,
-          phone: udata.phone,
-          location: locData,
-          building: 'Coming soon',
-          floor: 'Coming soon',
-          inout: 'Coming soon',
-          time: udata.time,
-          description: 'Many features have not been implemented<br> much more to come.',
-          'marker-color': '#b20000'
+    var promise = new Promise(function(resolve, reject) {
+      geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], function(err, res){
+        resolve(res.features[0].place_name);
+      });
+    });
+
+    promise.then(function(response){
+      var address = response.split(',');
+      console.log(address);
+      console.log(address[0] + '<br>' + address[1] + ', ' + address[2]);
+      geoJson = [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [udata.long, udata.lat] //e.latlng.lng, e.latlng.lat]
+          },
+          properties: {
+            title: udata.name,
+            height: udata.height,
+            weight: udata.weight,
+            phone: udata.phone,
+            location: address[0] + '<br>' + address[1] + ', ' + address[2],
+            building: 'Coming soon',
+            floor: 'Coming soon',
+            inout: 'Coming soon',
+            time: udata.time,
+            description: 'Many features have not been implemented<br> much more to come.',
+            'marker-color': '#b20000'
+          }
         }
-      }
-    ];
-    noCoord = false;
-    map.setView([udata.lat, udata.long], 15);
+      ];
+      noCoord = false;
+      map.setView([udata.lat, udata.long], 15);
+      myLayer.setGeoJSON(geoJson);
+    }, function(error){
+      console.error("Failed!");
+    });
+    
   }
 
-  
-
-  myLayer.setGeoJSON(geoJson);
     /*});
 
     map.on('locationerror', function() {
@@ -87,33 +138,6 @@ if (typeof(udata) != 'undefined'){
 
 
 }
-
-if (noCoord) {
-  geoJson = [
-      {
-          type: 'Feature',
-          geometry: {
-              type: 'Point',
-              coordinates: [-83.011445, 40.004020]
-          },
-          properties: {
-              title: 'John Stamos',
-              height: '5\'10\"',
-              weight: '165 lbs',
-              phone: '555-7635',
-              location: '112 W Woodruff Ave<br>Columbus, OH 43210',
-              building: 'YES',
-              floor: '2',
-              inout: '72 degrees, indoors*',
-  			time: '19:37:54 3/6/2016',
-              description: 'Location, floor, and temperature are based on<br> last reported result and may not be accurate.',
-              'marker-color': '#b20000'
-          }
-      }
-  ];
-}
-
-myLayer.setGeoJSON(geoJson);
 
 // Listen for individual marker clicks.
 myLayer.on('click',function(e) {
