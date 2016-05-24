@@ -149,6 +149,10 @@ function testLocation(err, data){
 }
 
 function updateGeoJSON() {
+  AM.getAccountByEmail(req.session.user.email, function(o) {
+    udata = o;
+  });
+
   var promise = new Promise(function(resolve, reject) {
     geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], function(err, res){
       resolve(res.features[0].place_name);
