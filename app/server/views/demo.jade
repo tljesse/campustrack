@@ -16,6 +16,8 @@ block content
 		script.
 			var admin = '#{admin}';
 
+	script(src='/js/views/home.js')
+	script(src='/js/controllers/homeController.js')
 	script(src='js/views/map.js')
 	include modals/alert
 
@@ -27,5 +29,4 @@ block scripts
 	if locals.blScripts
 			each script in blScripts
 				script(type='text/javascript', src= script)
-	script(src='/js/views/home.js')
-	script(src='/js/controllers/homeController.js')
+	

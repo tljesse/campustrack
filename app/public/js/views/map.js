@@ -45,8 +45,8 @@ if (typeof(udata) != 'undefined'){
     var dot = 0;
     for (var i = 0; i < udata.length; i++){
       if (typeof(udata[i].lat) != 'undefined' && typeof(udata[i].long) != 'undefined'){
-        console.log(udata.length);
         var promise = new Promise(function(resolve, reject) {
+          console.log(i);
           geocoder.reverseQuery([parseFloat(udata[i].long), parseFloat(udata[i].lat)], function(err, res){
             resolve(res.features[0].place_name);
           });
@@ -54,8 +54,6 @@ if (typeof(udata) != 'undefined'){
 
         promise.then(function(response) {
           var address = response.split(',');
-          console.log(udata);
-          console.log(i-1);
           geoJson[dot] = {
               type: 'Feature',
               geometry: {
@@ -88,45 +86,7 @@ if (typeof(udata) != 'undefined'){
       } // end if check for latlng //
     }
   } else if (typeof(udata.lat) != 'undefined'){
-    var promise = new Promise(function(resolve, reject) {
-      geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], function(err, res){
-        resolve(res.features[0].place_name);
-      });
-    });
-
-    promise.then(function(response){
-      var address = response.split(',');
-      console.log(address);
-      console.log(address[0] + '<br>' + address[1] + ', ' + address[2]);
-      geoJson = [
-        {
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [udata.long, udata.lat] //e.latlng.lng, e.latlng.lat]
-          },
-          properties: {
-            title: udata.name,
-            height: udata.height,
-            weight: udata.weight,
-            phone: udata.phone,
-            location: address[0] + '<br>' + address[1] + ', ' + address[2],
-            building: 'Coming soon',
-            floor: 'Coming soon',
-            inout: 'Coming soon',
-            time: udata.time,
-            description: 'Many features have not been implemented<br> much more to come.',
-            'marker-color': '#b20000'
-          }
-        }
-      ];
-      noCoord = false;
-      map.setView([udata.lat, udata.long], 15);
-      myLayer.setGeoJSON(geoJson);
-    }, function(error){
-      console.error("Failed!");
-    });
-    
+    updateGeoJSON();
   }
 
     /*});
@@ -176,6 +136,8 @@ map.on('move', empty);
 // has loaded on the page.
 empty();
 
+window.setTimout(updateGeoJSON, 2000);
+
 function empty() {
   info.innerHTML = '<div><strong>Click a marker</strong></div>';
 }
@@ -184,5 +146,46 @@ function testLocation(err, data){
   console.log(data);
   locData = data.features[0].place_name;
   console.log(locData);
+}
+
+function updateGeoJSON() {
+  var promise = new Promise(function(resolve, reject) {
+    geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], function(err, res){
+      resolve(res.features[0].place_name);
+    });
+  });
+
+  promise.then(function(response){
+    var address = response.split(',');
+    console.log(address);
+    console.log(address[0] + '<br>' + address[1] + ', ' + address[2]);
+    geoJson = [
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [udata.long, udata.lat] //e.latlng.lng, e.latlng.lat]
+        },
+        properties: {
+          title: udata.name,
+          height: udata.height,
+          weight: udata.weight,
+          phone: udata.phone,
+          location: address[0] + '<br>' + address[1] + ', ' + address[2],
+          building: 'Coming soon',
+          floor: 'Coming soon',
+          inout: 'Coming soon',
+          time: udata.time,
+          description: 'Many features have not been implemented<br> much more to come.',
+          'marker-color': '#b20000'
+        }
+      }
+    ];
+    noCoord = false;
+    map.setView([udata.lat, udata.long], 15);
+    myLayer.setGeoJSON(geoJson);
+  }, function(error){
+    console.error("Failed!");
+  });
 }
 
