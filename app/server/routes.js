@@ -188,7 +188,17 @@ module.exports = function(app) {
 				});
 			});
 		}
-	})
+	});
+
+	app.get('/demoUpdate', function(req, res) {
+		if (req.session.user == null) {
+			res.setHeader('Content-Type', 'application/json');
+			res.send('notLogged');
+		} else {
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify(req.session.user));
+		}
+	});
 
 
 

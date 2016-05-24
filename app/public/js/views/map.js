@@ -136,7 +136,7 @@ map.on('move', empty);
 // has loaded on the page.
 empty();
 
-window.setTimout(updateGeoJSON, 2000);
+window.setInterval(updateGeoJSON, 2000);
 
 function empty() {
   info.innerHTML = '<div><strong>Click a marker</strong></div>';
@@ -148,9 +148,24 @@ function testLocation(err, data){
   console.log(locData);
 }
 
+function getJSON(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("get", url, true);
+    xhr.responseType = "json";
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status == 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status);
+      }
+    };
+    xhr.send();
+};
+
 function updateGeoJSON() {
-  AM.getAccountByEmail(req.session.user.email, function(o) {
-    udata = o;
+  getJSON('/demoUpdate', function(err, data){
+    udata = data;
   });
 
   var promise = new Promise(function(resolve, reject) {
@@ -161,8 +176,6 @@ function updateGeoJSON() {
 
   promise.then(function(response){
     var address = response.split(',');
-    console.log(address);
-    console.log(address[0] + '<br>' + address[1] + ', ' + address[2]);
     geoJson = [
       {
         type: 'Feature',
