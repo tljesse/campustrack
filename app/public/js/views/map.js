@@ -136,7 +136,7 @@ map.on('move', empty);
 // has loaded on the page.
 empty();
 
-window.setInterval(updateGeoJSON, 2000);
+window.setInterval(updateGeoJSON, 10000);
 
 function empty() {
   info.innerHTML = '<div><strong>Click a marker</strong></div>';

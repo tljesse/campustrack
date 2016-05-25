@@ -5,6 +5,7 @@ var AD = require('./modules/admins-manager');
 var EM = require('./modules/email-dispatcher');
 //var SI = require('./modules/sms-inbound.js');
 var url = require('url');
+var skyhook = require ('skyhook-api') ('tristanljesse@gmail.com', 'eJwz5DQ0AAFTcwNLzmpTF1NDQ0dXZ11XS2dLXUsTcwNdR1NXU10TFyM3ZxA2MzapBQAUTgtM');
 
 module.exports = function(app) {
 
@@ -200,6 +201,14 @@ module.exports = function(app) {
 				res.send(JSON.stringify(o));
 			});	
 		}
+	});
+
+	app.get('/skyhookTest', function(req, res) {
+		res.setHeader('Content-Type', 'application/json');
+		skyhook ('1.2.3.4', function (err, data) {
+		  console.log (err || data);
+		  res.send(JSON.stringify(data));
+		});
 	});
 
 
