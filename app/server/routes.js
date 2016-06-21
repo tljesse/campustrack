@@ -92,7 +92,8 @@ module.exports = function(app) {
 					console.log(error);
 				});
 			} // end skyhook block*/
-
+			console.log(textParts[0]);
+			console.log(textParts[1]);
 			AM.updateLocation({
 				device 	: url_parts.msisdn,
 				lat 	: textParts[0],

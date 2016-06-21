@@ -113,15 +113,17 @@ exports.updateAccount = function(newData, callback)
 exports.updateLocation = function(newData, callback)
 {
 	accounts.findOne({device:newData.device}, function(e, o){
-		o.lat 	= newData.lat;
-		o.long 	= newData.long;
-		o.wlat 	= newData.wlat;
-		o.wlong = newData.wlong;
-		o.time 	= newData.time;
 		if (e){
 			callback(e, null);
-		} else {
+		} else if (o) {
+			o.lat 	= newData.lat;
+			o.long 	= newData.long;
+			o.wlat 	= newData.wlat;
+			o.wlong = newData.wlong;
+			o.time 	= newData.time;
 			accounts.save(o, {safe: true}, callback);
+		} else {
+			console.log('No account found');
 		}
 	});
 }
