@@ -5,7 +5,11 @@ var AD = require('./modules/admins-manager');
 var EM = require('./modules/email-dispatcher');
 //var SI = require('./modules/sms-inbound.js');
 var url = require('url');
-var skyhook = require ('skyhook-api') ('tristanljesse@gmail.com', 'eJwz5DQ0AAFTcwNLzmpTF1NDQ0dXZ11XS2dLXUsTcwNdR1NXU10TFyM3ZxA2MzapBQAUTgtM');
+var http = require('http');
+var builder = require('xmlbuilder');
+var parseString = require('xml2js').parseString;
+var request = require('request');
+//var skyhook = require ('skyhook-api') ('tristanljesse@gmail.com', 'eJwz5DQ0AAFTcwNLzmpTF1NDQ0dXZ11XS2dLXUsTcwNdR1NXU10TFyM3ZxA2MzapBQAUTgtM');
 
 module.exports = function(app) {
 
@@ -14,12 +18,90 @@ module.exports = function(app) {
 		var url_parts = url.parse(req.url,true).query;
 		if(url_parts.msisdn){
 			var textParts = url_parts.text.split(/_/);
+			var skyhookLoc = [
+				'lat': 0,
+				'lon': 0
+			];
+			if (textParts.length > 3){
+				var obj = {
+					LocationRQ: {
+						'@xmlns': 'http://skyhookwireless.com/wps/2005',
+						'@version': '2.24',
+						'@street-address-lookup': 'full',
+						authentication: {
+							'@version': '2.2',
+							key: {
+								'@key': process.env.SKY_KEY,
+								'@username': 'MY_USERNAME'
+							}
+						},
+						'access-point': []
+					}
+				};
+
+				var jsonObj = [];
+				var item = {};
+				console.log(textParts.length);
+				for (var x = 2; x < textParts.length; x++){
+					switch( (x-2) % 3 ){
+						case 0:
+							item['mac'] = textParts[x];
+							break;
+						case 1:
+							item['ssid'] = textParts[x];
+							break;
+						case 2:
+							item['signal-strength'] = textParts[x];
+							jsonObj.push(item);
+							item = {};
+							break;
+					}
+				}
+				obj.LocationRQ['access-point'] = jsonObj;
+
+				var xml = builder.create(obj);
+
+				var xmlString = xml.end({
+					pretty: true,
+					indent: '	',
+					newline: '\n',
+					allowEmpty: false
+				});
+
+				console.log(xmlString);
+
+				request.post({
+					url:'https://api.skyhookwireless.com/wps2/location',
+					method:'POST',
+					headers:{
+						'Content-Type': 'text/xml',
+					},
+					body: xmlString
+				},
+				function(error, response, body){
+					console.log(response.statusCode);
+					if (error){
+						response.status(500).send('Skyhook error!');
+					} else if (response.statusCode != 200){
+						console.log('Location not found!');
+					} else {
+						parseString(body, {explicitArray : false }, function(err, res){
+							skyhookLoc['lat'] = res.LocationRS.location.latitude;
+							skyhookLoc['lon'] = res.LocationRS.location.longitude;
+							console.log(skyhookLoc['lat']);
+							console.log(skyhookLoc['lon']);
+						});
+					}
+					console.log(error);
+				});
+			} // end skyhook block
+
 			AM.updateLocation({
 				device 	: url_parts.msisdn,
 				lat 	: textParts[0],
 				long 	: textParts[1],
-				wlat	: 'test',
-				wlong	: 'test',
+				wlat	: skyhookLoc['lat'],
+				wlong	: skyhookLoc['lon'],
 				time 	: url_parts['message-timestamp']
 			}, function(e, o){
 				
@@ -204,11 +286,73 @@ module.exports = function(app) {
 	});
 
 	app.get('/skyhookTest', function(req, res) {
-		res.setHeader('Content-Type', 'application/json');
-		skyhook ('1.2.3.4', function (err, data) {
-		  console.log (err || data);
-		  res.send(JSON.stringify(data));
+		//var xml = builder.begin().ele('LocationRQ', { 'xmlns': 'http://skyhookwireless.com/wps/2005', 'version': '2.24', 'street-address-lookup': 'full' });
+		var obj = {
+			LocationRQ: {
+				'@xmlns': 'http://skyhookwireless.com/wps/2005',
+				'@version': '2.24',
+				'@street-address-lookup': 'full',
+				authentication: {
+					'@version': '2.2',
+					key: {
+						'@key': process.env.SKY_KEY,
+						'@username': 'MY_USERNAME'
+					}
+				},
+				'access-point': [ 
+					{
+						mac: 'E01C413B9414',
+						ssid: 'SkyFi-Corp',
+						'signal-strength': '-66'
+					},
+					{
+						mac: 'E01C413BD528',
+						ssid: 'SkyFi-Corp',
+						'signal-strength': '-68'
+					},
+					{
+						mac: 'E01C413BD514',
+						ssid: 'SkyFi-Corp',
+						'signal-strength': '-68'
+					} 
+				]
+			}
+		};
+
+		//console.log(obj);
+
+		var xml = builder.create(obj);
+
+		var xmlString = xml.end({
+			pretty: true,
+			indent: '	',
+			newline: '\n',
+			allowEmpty: false
 		});
+
+		console.log(xmlString);
+
+		request.post({
+			url:'https://api.skyhookwireless.com/wps2/location',
+			method:'POST',
+			headers:{
+				'Content-Type': 'text/xml',
+			},
+			body: xmlString
+		},
+		function(error, response, body){
+			console.log(response.statusCode);
+			parseString(body, {explicitArray : false }, function(err, res){
+				console.log(res.LocationRS.location.latitude);
+				console.log(res.LocationRS.location.longitude);
+			});
+			console.log(error);
+		});
+		/*getJSON('https://api.skyhookwireless.com/wps2/location', xml, function(err, data){
+			console.log(data);
+		});*/
+		
+		//console.log(xmlString);
 	});
 
 
@@ -411,4 +555,19 @@ module.exports = function(app) {
 	
 	app.get('*', function(req, res) { res.render('404', { title: 'Page Not Found'}); });
 
+};
+
+function getJSON(url, data, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("get", url, true);
+    xhr.responseType = "xml";
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status == 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status);
+      }
+    };
+    xhr.send(data);
 };

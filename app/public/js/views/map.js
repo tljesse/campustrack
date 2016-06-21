@@ -117,11 +117,12 @@ function updateGeoJSON() {
     for (var i = 0; i < udata.length; i++){
       if (typeof(udata[i].lat) != 'undefined' && typeof(udata[i].long) != 'undefined'){
         var promise = new Promise(function(resolve, reject) {
-          console.log(i);
-          /*geocoder.reverseQuery([parseFloat(udata[i].long), parseFloat(udata[i].lat)], function(err, res){
-            resolve(res.features[0].place_name);
-          });*/
-          var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + udata[i].long + '%2C%20' + udata[i].lat + '.json?types=address&access_token=pk.eyJ1IjoidGxqZXNzZSIsImEiOiJjaWpzd3RjbmkwaGI3dWZtNTFhMnF3NG9nIn0.wyaZAca7yx1zsAU0UPcMwg'
+          var geocodeURL;
+          if(udata[i].long == 'X' && udata[i].wlong != ''){
+            geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + udata[i].wlong + '%2C%20' + udata[i].wlat + '.json?types=address&access_token=pk.' + process.env.SKY_KEY;
+          } else {
+            geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + udata[i].long + '%2C%20' + udata[i].lat + '.json?types=address&access_token=pk.' + process.env.SKY_KEY;
+          }
           getJSON(geocodeURL, i, function(err, data, index){
             resolve(index + ',' + data.features[0].place_name);
           });
@@ -167,7 +168,7 @@ function updateGeoJSON() {
       /*geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], function(err, res){
         resolve(res.features[0].place_name);
       });*/
-      var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + udata.long + '%2C%20' + udata.lat + '.json?types=address&access_token=pk.eyJ1IjoidGxqZXNzZSIsImEiOiJjaWpzd3RjbmkwaGI3dWZtNTFhMnF3NG9nIn0.wyaZAca7yx1zsAU0UPcMwg'
+      var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + udata.long + '%2C%20' + udata.lat + '.json?types=address&access_token=pk.' + process.env.SKY_KEY;
       getJSON(geocodeURL, null, function(err, data){
         resolve(data.features[0].place_name);
       });

@@ -25,7 +25,9 @@
     "mongoose": "*",
     "stylus": "0.52.4",
     "nodemailer": "*",
-    "skyhook-api": "*"
+    "xmlbuilder": "*",
+    "xml2js": "*",
+    "request": "*"
   },
   "engines": {
     "node": "4.2.1"
