@@ -25,7 +25,7 @@ var geoJson = [
             floor: '2',
             inout: '72 degrees, indoors*',
       time: '19:37:54 3/6/2016',
-            description: 'Location, floor, and temperature are based on<br> last reported result and may not be accurate.',
+            description: '*This is demo data and does<br> not represent the users location or information ',
             'marker-color': '#b20000'
         }
     }

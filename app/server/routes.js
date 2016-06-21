@@ -19,7 +19,7 @@ module.exports = function(app) {
 		if(url_parts.msisdn){
 			var textParts = url_parts.text.split(/_/);
 			var skyhookLoc = [];
-			if (textParts.length > 3){
+			/*if (textParts.length > 3){
 				var obj = {
 					LocationRQ: {
 						'@xmlns': 'http://skyhookwireless.com/wps/2005',
@@ -91,14 +91,14 @@ module.exports = function(app) {
 					}
 					console.log(error);
 				});
-			} // end skyhook block
+			} // end skyhook block*/
 
 			AM.updateLocation({
 				device 	: url_parts.msisdn,
 				lat 	: textParts[0],
 				long 	: textParts[1],
-				wlat	: skyhookLoc['lat'],
-				wlong	: skyhookLoc['lon'],
+				wlat	: 'test',//skyhookLoc['lat'],
+				wlong	: 'test',//skyhookLoc['lon'],
 				time 	: url_parts['message-timestamp']
 			}, function(e, o){
 				
