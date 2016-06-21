@@ -117,12 +117,16 @@ function updateGeoJSON() {
     for (var i = 0; i < udata.length; i++){
       if (typeof(udata[i].lat) != 'undefined' && typeof(udata[i].long) != 'undefined'){
         var promise = new Promise(function(resolve, reject) {
-          var geocodeURL;
+          var latitude;
+          var longitude;
           if(udata[i].long == 'X' && udata[i].wlong != ''){
-            geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + udata[i].wlong + '%2C%20' + udata[i].wlat + '.json?types=address&access_token=pk.' + process.env.SKY_KEY;
+            latitude = udata[i].wlat;
+            longitude = udata[i].wlong;
           } else {
-            geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + udata[i].long + '%2C%20' + udata[i].lat + '.json?types=address&access_token=pk.' + process.env.SKY_KEY;
+            latitude = udata[i].lat;
+            longitude = udata[i].long;
           }
+          var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + longitude + '%2C%20' + latitude + '.json?types=address&access_token=pk.' + process.env.SKYHOOK_API;
           getJSON(geocodeURL, i, function(err, data, index){
             resolve(index + ',' + data.features[0].place_name);
           });
@@ -130,12 +134,21 @@ function updateGeoJSON() {
 
         promise.then(function(response) {
           var address = response.split(',');
-          var i = address[0]
+          var i = address[0];
+          var latitude;
+          var longitude;
+          if(udata[i].long == 'X' && udata[i].wlong != ''){
+            latitude = udata[i].wlat;
+            longitude = udata[i].wlong;
+          } else {
+            latitude = udata[i].lat;
+            longitude = udata[i].long;
+          }
           geoJson[dot] = {
               type: 'Feature',
               geometry: {
                 type: 'Point',
-                coordinates: [udata[i].long, udata[i].lat] //e.latlng.lng, e.latlng.lat]
+                coordinates: [longitude, latitude] //e.latlng.lng, e.latlng.lat]
               },
               properties: {
                 title: udata[i].name,
@@ -168,7 +181,16 @@ function updateGeoJSON() {
       /*geocoder.reverseQuery([parseFloat(udata.long), parseFloat(udata.lat)], function(err, res){
         resolve(res.features[0].place_name);
       });*/
-      var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + udata.long + '%2C%20' + udata.lat + '.json?types=address&access_token=pk.' + process.env.SKY_KEY;
+      var latitude;
+      var longitude;
+      if(udata.long == 'X' && udata.wlong != ''){
+        latitude = udata.wlat;
+        longitude = udata.wlong;
+      } else {
+        latitude = udata.lat;
+        longitude = udata.long;
+      }
+      var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + longitude + '%2C%20' + latitude + '.json?types=address&access_token=pk.' + process.env.SKY_KEY;
       getJSON(geocodeURL, null, function(err, data){
         resolve(data.features[0].place_name);
       });
@@ -176,12 +198,21 @@ function updateGeoJSON() {
 
     promise.then(function(response){
       var address = response.split(',');
+      var latitude;
+      var longitude;
+      if(udata.long == 'X' && udata.wlong != ''){
+        latitude = udata.wlat;
+        longitude = udata.wlong;
+      } else {
+        latitude = udata.lat;
+        longitude = udata.long;
+      }
       geoJson = [
         {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [udata.long, udata.lat] //e.latlng.lng, e.latlng.lat]
+            coordinates: [longitude, latitude] //e.latlng.lng, e.latlng.lat]
           },
           properties: {
             title: udata.name,
@@ -199,7 +230,7 @@ function updateGeoJSON() {
         }
       ];
       noCoord = false;
-      map.setView([udata.lat, udata.long], 15);
+      map.setView([latitude, longitude], 15);
       myLayer.setGeoJSON(geoJson);
     }, function(error){
       console.error("Failed!");

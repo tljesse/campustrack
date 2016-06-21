@@ -18,10 +18,7 @@ module.exports = function(app) {
 		var url_parts = url.parse(req.url,true).query;
 		if(url_parts.msisdn){
 			var textParts = url_parts.text.split(/_/);
-			var skyhookLoc = [
-				'lat': 0,
-				'lon': 0
-			];
+			var skyhookLoc = [];
 			if (textParts.length > 3){
 				var obj = {
 					LocationRQ: {
@@ -31,7 +28,7 @@ module.exports = function(app) {
 						authentication: {
 							'@version': '2.2',
 							key: {
-								'@key': process.env.SKY_KEY,
+								'@key': process.env.SKYHOOK_API,
 								'@username': 'MY_USERNAME'
 							}
 						},
@@ -295,7 +292,7 @@ module.exports = function(app) {
 				authentication: {
 					'@version': '2.2',
 					key: {
-						'@key': process.env.SKY_KEY,
+						'@key': process.env.SKYHOOK_API,
 						'@username': 'MY_USERNAME'
 					}
 				},
