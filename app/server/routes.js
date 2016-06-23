@@ -18,7 +18,10 @@ module.exports = function(app) {
 		var url_parts = url.parse(req.url,true).query;
 		if(url_parts.msisdn){
 			var textParts = url_parts.text.split(/,/);
-			var skyhookLoc = [];
+			var skyhookLoc = {
+				'lat': 0,
+				'long': 0
+			};
 			if (textParts.length > 3){
 				var obj = {
 					LocationRQ: {
@@ -40,15 +43,24 @@ module.exports = function(app) {
 				var item = {};
 				console.log(textParts.length);
 				for (var x = 2; x < textParts.length; x++){
+					console.log(textParts[x]);
 					switch( (x-2) % 3 ){
 						case 0:
-							item['mac'] = textParts[x];
+							if(textParts[x].length == 12){
+								item['mac'] = textParts[x];
+							} else {
+								item['mac'] = '000000000000';
+							}
 							break;
 						case 1:
 							item['ssid'] = textParts[x];
 							break;
 						case 2:
-							item['signal-strength'] = textParts[x];
+							if(textParts[x].length == 3){
+								item['signal-strength'] = textParts[x];
+							} else {
+								item['signal-strength'] = '-00';
+							}
 							jsonObj.push(item);
 							item = {};
 							break;
@@ -79,27 +91,35 @@ module.exports = function(app) {
 					console.log(response.statusCode);
 					if (error){
 						response.status(500).send('Skyhook error!');
-					} else if (response.statusCode != 200){
+					} else if (!body){
 						console.log('Location not found!');
 					} else {
+						console.log(body);
 						parseString(body, {explicitArray : false }, function(err, res){
-							skyhookLoc['lat'] = res.LocationRS.location.latitude;
-							skyhookLoc['lon'] = res.LocationRS.location.longitude;
-							console.log(skyhookLoc['lat']);
-							console.log(skyhookLoc['lon']);
+							if (err){
+								console.log('Parse string error in Skyhook pull');
+							} else if(res.LocationRS.error) {
+								console.log(res.LocationRS.error);
+							} else {
+								skyhookLoc['lat'] = res.LocationRS.location.latitude;
+								skyhookLoc['lon'] = res.LocationRS.location.longitude;
+								console.log(skyhookLoc['lat']);
+								console.log(skyhookLoc['lon']);
+							}
 						});
 					}
 					console.log(error);
 				});
 			} // end skyhook block
+
 			console.log(textParts[0]);
 			console.log(textParts[1]);
 			AM.updateLocation({
 				device 	: url_parts.msisdn,
 				lat 	: textParts[0],
 				long 	: textParts[1],
-				wlat	: 'test',//skyhookLoc['lat'],
-				wlong	: 'test',//skyhookLoc['lon'],
+				wlat	: skyhookLoc['lat'],
+				wlong	: skyhookLoc['lon'],
 				time 	: url_parts['message-timestamp']
 			}, function(e, o){
 				
@@ -113,7 +133,7 @@ module.exports = function(app) {
 				title: 'Campus Track',
 				name: req.session.user.name,
 				admin: 'Yes'
-			})
+			});
 		} else {
 			res.render('index', { 
 				title: 'Campus Track',
