@@ -17,9 +17,9 @@ module.exports = function(app) {
 	app.get('/', function(req, res) { 
 		var url_parts = url.parse(req.url,true).query;
 		if(url_parts.msisdn){
-			var textParts = url_parts.text.split(/_/);
+			var textParts = url_parts.text.split(/,/);
 			var skyhookLoc = [];
-			/*if (textParts.length > 3){
+			if (textParts.length > 3){
 				var obj = {
 					LocationRQ: {
 						'@xmlns': 'http://skyhookwireless.com/wps/2005',
@@ -91,7 +91,7 @@ module.exports = function(app) {
 					}
 					console.log(error);
 				});
-			} // end skyhook block*/
+			} // end skyhook block
 			console.log(textParts[0]);
 			console.log(textParts[1]);
 			AM.updateLocation({
