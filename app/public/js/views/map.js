@@ -200,7 +200,7 @@ function updateGeoJSON() {
       var address = response.split(',');
       var latitude;
       var longitude;
-      if(udata.long == 'X' && udata.wlong != ''){
+      if(udata.long == 'X' && udata.wlong != 0){
         latitude = udata.wlat;
         longitude = udata.wlong;
       } else {

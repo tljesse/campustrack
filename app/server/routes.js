@@ -3,13 +3,11 @@ var CT = require('./modules/country-list');
 var AM = require('./modules/account-manager');
 var AD = require('./modules/admins-manager');
 var EM = require('./modules/email-dispatcher');
-//var SI = require('./modules/sms-inbound.js');
 var url = require('url');
 var http = require('http');
 var builder = require('xmlbuilder');
 var parseString = require('xml2js').parseString;
 var request = require('request');
-//var skyhook = require ('skyhook-api') ('tristanljesse@gmail.com', 'eJwz5DQ0AAFTcwNLzmpTF1NDQ0dXZ11XS2dLXUsTcwNdR1NXU10TFyM3ZxA2MzapBQAUTgtM');
 
 module.exports = function(app) {
 
@@ -46,6 +44,7 @@ module.exports = function(app) {
 					console.log(textParts[x]);
 					switch( (x-2) % 3 ){
 						case 0:
+							console.log(textParts[x].length);
 							if(textParts[x].length == 12){
 								item['mac'] = textParts[x];
 							} else {
@@ -98,13 +97,17 @@ module.exports = function(app) {
 						parseString(body, {explicitArray : false }, function(err, res){
 							if (err){
 								console.log('Parse string error in Skyhook pull');
-							} else if(res.LocationRS.error) {
-								console.log(res.LocationRS.error);
+							} else if(res) {
+								if(res.LocationRS.error) {
+									console.log(res.LocationRS.error);
+								} else {
+									skyhookLoc['lat'] = res.LocationRS.location.latitude;
+									skyhookLoc['lon'] = res.LocationRS.location.longitude;
+									console.log(skyhookLoc['lat']);
+									console.log(skyhookLoc['lon']);
+								}
 							} else {
-								skyhookLoc['lat'] = res.LocationRS.location.latitude;
-								skyhookLoc['lon'] = res.LocationRS.location.longitude;
-								console.log(skyhookLoc['lat']);
-								console.log(skyhookLoc['lon']);
+								console.log('No result from string xml2js');
 							}
 						});
 					}
@@ -332,13 +335,15 @@ module.exports = function(app) {
 						mac: 'E01C413BD514',
 						ssid: 'SkyFi-Corp',
 						'signal-strength': '-68'
-					} 
+					}
 				]
 			}
 		};
 
 		//console.log(obj);
 
+		//var opts = renderOpts: pretty: true, indent: '	', newline: '\n' allowEmpty: false;
+		//var builder = new xml2js.Builder opts;
 		var xml = builder.create(obj);
 
 		var xmlString = xml.end({
@@ -360,15 +365,29 @@ module.exports = function(app) {
 		},
 		function(error, response, body){
 			console.log(response.statusCode);
-			parseString(body, {explicitArray : false }, function(err, res){
-				console.log(res.LocationRS.location.latitude);
-				console.log(res.LocationRS.location.longitude);
-			});
+			if (error){
+				response.status(500).send('Skyhook error!');
+			} else if (!body){
+				console.log('Location not found!');
+			} else {
+				console.log(body);
+				parseString(body, {explicitArray : false }, function(err, res){
+					if (err){
+						console.log('Parse string error in Skyhook pull');
+					} else if(res) {
+						if(res.LocationRS.error) {
+							console.log(res.LocationRS.error);
+						} else {
+							console.log(res.LocationRS.location.latitude);
+							console.log(res.LocationRS.location.longitude);
+						}
+					} else {
+						console.log('No result from string xml2js');
+					}
+				});
+			}
 			console.log(error);
 		});
-		/*getJSON('https://api.skyhookwireless.com/wps2/location', xml, function(err, data){
-			console.log(data);
-		});*/
 		
 		//console.log(xmlString);
 	});

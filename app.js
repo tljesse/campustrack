@@ -1,8 +1,8 @@
 
 /**
-	* Node.js Login Boilerplate
+	* Built starting from Node.js Login template
 	* More Info : http://kitchen.braitsch.io/building-a-login-system-in-node-js-and-mongodb/
-	* Copyright (c) 2013-2016 Stephen Braitsch
+	* Node.js Login - Copyright (c) 2013-2016 Stephen Braitsch
 **/
 
 var http = require('http');
