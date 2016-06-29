@@ -173,8 +173,7 @@ module.exports = function(app) {
 			res.render('demo', {
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
-				title: 'Campus Track | Demo',
-				maps: process.env.MAPBOX_API
+				title: 'Campus Track | Demo'
 			});
 			res.end();
 		} else if(req.session.user.height == null){
@@ -183,7 +182,6 @@ module.exports = function(app) {
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
 				title: 'Campus Track | Demo',
-				maps: process.env.MAPBOX_API,
 				admin: 'Yes'
 			});
 		} else {
@@ -191,8 +189,8 @@ module.exports = function(app) {
 				name: req.session.user.name,
 				scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'], 
 				styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'], 
-				title: 'Campus Track | Demo',
-				maps: process.env.MAPBOX_API
+				title: 'Campus Track | Demo'
+				//maps: JSON.stringify(['pk', 'eyJ1IjoidGxqZXNzZSIsImEiOiJjaWpzd3RjbmkwaGI3dWZtNTFhMnF3NG9nIn0', 'wyaZAca7yx1zsAU0UPcMwg'])
 			}); 
 		}
 		
@@ -270,7 +268,6 @@ module.exports = function(app) {
 					scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'],
 					blScripts: ['/js/views/home.js', '/js/controllers/homeController.js'],
 					styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'],
-					maps: process.env.MAPBOX_API,
 					udata : JSON.stringify(o)
 				});
 			});
@@ -290,7 +287,6 @@ module.exports = function(app) {
 					scripts: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.js'],
 					blScripts: ['/js/views/home.js', '/js/controllers/homeController.js'],
 					styles: ['https://api.mapbox.com/mapbox.js/v2.3.0/mapbox.css'],
-					maps: process.env.MAPBOX_API,
 					admin : 'Yes'
 				});
 			});
