@@ -1,4 +1,4 @@
-L.mapbox.accessToken = 'pk.eyJ1IjoidGxqZXNzZSIsImEiOiJjaWpzd3RjbmkwaGI3dWZtNTFhMnF3NG9nIn0.wyaZAca7yx1zsAU0UPcMwg';
+L.mapbox.accessToken = process.env.MAPBOX_API;
 var info = document.getElementById('info');
 var map = L.mapbox.map('map', 'mapbox.streets')
     .setView([40.0012363,-83.0099576], 15);
@@ -126,7 +126,7 @@ function updateGeoJSON() {
             latitude = udata[i].lat;
             longitude = udata[i].long;
           }
-          var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + longitude + '%2C%20' + latitude + '.json?types=address&access_token=pk.' + process.env.SKYHOOK_API;
+          var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + longitude + '%2C%20' + latitude + '.json?types=address&access_token=' + process.env.MAPBOX_API;
           getJSON(geocodeURL, i, function(err, data, index){
             resolve(index + ',' + data.features[0].place_name);
           });
@@ -190,7 +190,7 @@ function updateGeoJSON() {
         latitude = udata.lat;
         longitude = udata.long;
       }
-      var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + longitude + '%2C%20' + latitude + '.json?types=address&access_token=pk.' + process.env.SKY_KEY;
+      var geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + longitude + '%2C%20' + latitude + '.json?types=address&access_token=' + process.env.MAPBOX_API;
       getJSON(geocodeURL, null, function(err, data){
         resolve(data.features[0].place_name);
       });

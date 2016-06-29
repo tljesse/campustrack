@@ -29,7 +29,7 @@ module.exports = function(app) {
 						authentication: {
 							'@version': '2.2',
 							key: {
-								'@key': process.env.SKYHOOK_API,
+								'@key': 'eJwVwckNACAIALC3w5BwCeGpoEsZdze21Ai_jqHtcIpPCQcd4rCtGDQMoSrDLNccq98HECYLQA',
 								'@username': 'MY_USERNAME'
 							}
 						},
@@ -93,7 +93,6 @@ module.exports = function(app) {
 					} else if (!body){
 						console.log('Location not found!');
 					} else {
-						console.log(body);
 						parseString(body, {explicitArray : false }, function(err, res){
 							if (err){
 								console.log('Parse string error in Skyhook pull');
@@ -111,7 +110,6 @@ module.exports = function(app) {
 							}
 						});
 					}
-					console.log(error);
 				});
 			} // end skyhook block
 
