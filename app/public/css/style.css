@@ -26,6 +26,21 @@ body {
   padding-top: 0;
   padding-bottom: 0;
 }
+@media only screen and (max-width: 766px) {
+  .collapsing,
+  .in {
+    background-color: rgba(222,222,222,0.7);
+  }
+  .collapsing ul li a,
+  .in ul li a {
+    color: #555 !important;
+    transition: color 1s;
+  }
+  .collapsing ul li a:hover,
+  .in ul li a:hover {
+    color: #000 !important;
+  }
+}
 #map {
   position: absolute;
   top: 50px;
